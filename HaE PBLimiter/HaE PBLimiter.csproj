@@ -48,17 +48,20 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx">
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\ControlzEx.dll</HintPath>
+    </Reference>
     <Reference Include="HavokWrapper">
       <HintPath>D:\Programs\steam\steamapps\common\SpaceEngineers\Bin64\HavokWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Y:\Space Engineers\Torch\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>Y:\Space Engineers\Torch\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Octokit">
-      <HintPath>Y:\Space Engineers\Torch\Octokit.dll</HintPath>
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -93,13 +96,13 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Torch">
-      <HintPath>Y:\Space Engineers\Torch\Torch.dll</HintPath>
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\Torch.dll</HintPath>
     </Reference>
     <Reference Include="Torch.API">
-      <HintPath>Y:\Space Engineers\Torch\Torch.API.dll</HintPath>
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\Torch.API.dll</HintPath>
     </Reference>
     <Reference Include="Torch.Server">
-      <HintPath>Y:\Space Engineers\Torch\Torch.Server.exe</HintPath>
+      <HintPath>..\..\..\..\servers\Torch Versions\TorchBin\Torch.Server.exe</HintPath>
     </Reference>
     <Reference Include="VRage">
       <HintPath>D:\Programs\steam\steamapps\common\SpaceEngineers\Bin64\VRage.dll</HintPath>
@@ -146,8 +149,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Equinox\MultiProfilerEntry.cs" />
+    <Compile Include="Equinox\SlimProfilerEntry.cs" />
+    <Compile Include="PBLimiter Logic.cs" />
+    <Compile Include="PBProfilerPatch.cs" />
+    <Compile Include="PBTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Equinox\ReflectionUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
