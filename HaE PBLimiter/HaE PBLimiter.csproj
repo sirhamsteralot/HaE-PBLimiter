@@ -149,8 +149,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Equinox\MultiProfilerEntry.cs" />
     <Compile Include="Equinox\SlimProfilerEntry.cs" />
+    <Compile Include="PBData.cs" />
     <Compile Include="PBLimiter Logic.cs" />
     <Compile Include="PBProfilerManager.cs" />
     <Compile Include="PBProfilerPatch.cs" />

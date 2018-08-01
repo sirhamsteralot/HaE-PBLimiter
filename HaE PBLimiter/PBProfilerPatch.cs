@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Diagnostics;
 using Havok;
 using NLog;
 using Sandbox.Engine.Physics;
@@ -39,15 +40,14 @@ namespace HaE_PBLimiter
 
         // ReSharper disable InconsistentNaming
         // ReSharper disable once SuggestBaseTypeForParameter
-        private static void PrefixProfilePb(MyProgrammableBlock __instance, ref MultiProfilerEntry __localProfilerHandle)
+        private static void PrefixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
-            __localProfilerHandle = default(MultiProfilerEntry);
-            __localProfilerHandle.Start();
+            __localTimingStart = Stopwatch.GetTimestamp();
         }
 
-        private static void SuffixProfilePb(ref MultiProfilerEntry __localProfilerHandle)
+        private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
-            __localProfilerHandle.Stop();
+            long dt = Stopwatch.Frequency * (Stopwatch.GetTimestamp() - __localTimingStart);
         }
     }
 }

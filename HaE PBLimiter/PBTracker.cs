@@ -23,7 +23,6 @@ namespace HaE_PBLimiter
     public class PBTracker
     {
         public MyProgrammableBlock PB;
-            
 
         public double sum;
         public double average;

@@ -23,32 +23,23 @@ namespace HaE_PBLimiter
 {
     public class PBLimiter_Logic : TorchPluginBase
     {
-        public Guid Id => new Guid("9bb557f4-867d-4766-9907-4a1c28347db7");
-
-        public new string Version => "0.1";
-
-        public new string Name => "HaE PBLimiter";
-
-        public HashSet<MyProgrammableBlock> PBs = new HashSet<MyProgrammableBlock>();
-        public bool gameLoaded;
-
-        public override void Init(ITorchBase torchBase)
+        public override void Init(ITorchBase torch)
         {
-            torchBase.GameStateChanged += OnGameStateChanged;
-            MyEntities.OnEntityAdd += OnEntityAdded;
-        }
-
-        private void OnEntityAdded(MyEntity entity)
-        {
-
+            torch.GameStateChanged += OnGameStateChanged;
+            var pgmr = new PBProfilerManager(torch);
+            torch.Managers.AddManager(pgmr);
         }
 
         private void OnGameStateChanged(MySandboxGame game, TorchGameState newState)
         {
             if ((newState & TorchGameState.Loaded) != 0)
-                gameLoaded = true;
-            if (!gameLoaded)
-                return;
+            {
+                Torch.Managers.GetManager(typeof(PBProfilerManager)).Attach();
+            }
+            else
+            {
+                Torch.Managers.GetManager(typeof(PBProfilerManager)).Detach();
+            }
         }
     }
 }
