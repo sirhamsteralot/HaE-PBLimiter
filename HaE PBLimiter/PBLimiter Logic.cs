@@ -16,21 +16,23 @@ using VRage.Game;
 using VRage.Game.Entity;
 using Torch.API.Plugins;
 using Torch.API;
+using Torch;
+using HaE_PBLimiter.Equinox;
 
 namespace HaE_PBLimiter
 {
-    public class PBLimiter_Logic : ITorchPlugin
+    public class PBLimiter_Logic : TorchPluginBase
     {
         public Guid Id => new Guid("9bb557f4-867d-4766-9907-4a1c28347db7");
 
-        public string Version => "0.1";
+        public new string Version => "0.1";
 
-        public string Name => "HaE PBLimiter";
+        public new string Name => "HaE PBLimiter";
 
         public HashSet<MyProgrammableBlock> PBs = new HashSet<MyProgrammableBlock>();
         public bool gameLoaded;
 
-        public void Init(ITorchBase torchBase)
+        public override void Init(ITorchBase torchBase)
         {
             torchBase.GameStateChanged += OnGameStateChanged;
             MyEntities.OnEntityAdd += OnEntityAdded;
@@ -47,18 +49,6 @@ namespace HaE_PBLimiter
                 gameLoaded = true;
             if (!gameLoaded)
                 return;
-
-                
-        }
-
-        public void Update()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -19,6 +19,7 @@ using VRage.Game.Components;
 using VRage.Game.Entity;
 using VRage.Game.Entity.EntityComponents.Interfaces;
 using VRage.ModAPI;
+using HaE_PBLimiter.Equinox;
 
 namespace HaE_PBLimiter
 {
@@ -41,7 +42,6 @@ namespace HaE_PBLimiter
         private static void PrefixProfilePb(MyProgrammableBlock __instance, ref MultiProfilerEntry __localProfilerHandle)
         {
             __localProfilerHandle = default(MultiProfilerEntry);
-            ProfilerData.EntityEntry(__instance, ref __localProfilerHandle);
             __localProfilerHandle.Start();
         }
 

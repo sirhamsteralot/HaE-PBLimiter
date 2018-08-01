@@ -152,6 +152,7 @@
     <Compile Include="Equinox\MultiProfilerEntry.cs" />
     <Compile Include="Equinox\SlimProfilerEntry.cs" />
     <Compile Include="PBLimiter Logic.cs" />
+    <Compile Include="PBProfilerManager.cs" />
     <Compile Include="PBProfilerPatch.cs" />
     <Compile Include="PBTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

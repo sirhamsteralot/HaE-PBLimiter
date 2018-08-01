@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace HaE_PBLimiter
+namespace HaE_PBLimiter.Equinox
 {
     public struct MultiProfilerEntry
     {
