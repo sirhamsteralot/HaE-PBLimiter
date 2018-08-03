@@ -45,17 +45,17 @@ namespace HaE_PBLimiter
 
         // ReSharper disable InconsistentNaming
         // ReSharper disable once SuggestBaseTypeForParameter
-        private static void PrefixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
+        private static void PrefixProfilePb(MyProgrammableBlock __pbinstance, ref long __localTimingStart)
         {
             __localTimingStart = Stopwatch.GetTimestamp();
             Log.Info("PBRun");
         }
 
-        private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
+        private static void SuffixProfilePb(MyProgrammableBlock __pbinstance, ref long __localTimingStart)
         {
             var dtInSeconds = (Stopwatch.GetTimestamp() - __localTimingStart) / (double)Stopwatch.Frequency;
 
-            PBData.AddOrUpdatePair(__instance, dtInSeconds);
+            PBData.AddOrUpdatePair(__pbinstance, dtInSeconds);
         }
 
     }
