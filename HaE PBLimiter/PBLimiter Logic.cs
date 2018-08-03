@@ -15,6 +15,7 @@ using Sandbox.Game.Entities.Blocks;
 using VRage;
 using VRage.Game;
 using VRage.Game.Entity;
+using NLog;
 using Torch;
 using Torch.API;
 using Torch.API.Plugins;
@@ -33,13 +34,15 @@ namespace HaE_PBLimiter
 {
     public class PBLimiter_Logic : TorchPluginBase, IWpfPlugin
     {
-        const double maxAVGMs = 0.1;
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        const double maxAVGMs = 0.0001;
 
         private PBLimiterUsercontrol _control;
         public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));
 
-        private Persistent<ProfilerConfig> _config;
-        public ProfilerConfig Config => _config?.Data;
+        private ProfilerConfig _config;
+        public ProfilerConfig Config => _config;
 
         public override void Init(ITorchBase torch)
         {
@@ -47,7 +50,8 @@ namespace HaE_PBLimiter
             var pgmr = new PBProfilerManager(torch);
             torch.Managers.AddManager(pgmr);
 
-            _config = Persistent<ProfilerConfig>.Load(Path.Combine(StoragePath, "Profiler.cfg"));
+            _config = new ProfilerConfig();
+            Log.Info("PBLimiter loaded!");
         }
 
         private void OnGameStateChanged(MySandboxGame game, TorchGameState newState)

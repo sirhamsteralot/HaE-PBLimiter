@@ -39,6 +39,8 @@ namespace HaE_PBLimiter
 
             ctx.GetPattern(_programmableRunSandboxed).Prefixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(PrefixProfilePb)));
             ctx.GetPattern(_programmableRunSandboxed).Suffixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(SuffixProfilePb)));
+
+            Log.Info("Finished Patching!");
         }
 
         // ReSharper disable InconsistentNaming
@@ -46,6 +48,7 @@ namespace HaE_PBLimiter
         private static void PrefixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
             __localTimingStart = Stopwatch.GetTimestamp();
+            Log.Info("PBRun");
         }
 
         private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)

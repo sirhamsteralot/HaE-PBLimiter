@@ -11,12 +11,15 @@ using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.World;
 using VRage;
 using VRage.Entities;
+using NLog;
 
 
 namespace HaE_PBLimiter
 {
     public class PBData
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public static Dictionary<long, PBTracker> pbPair = new Dictionary<long, PBTracker>();
 
         public static void AddOrUpdatePair(MyProgrammableBlock entity, double runtime)
@@ -28,6 +31,8 @@ namespace HaE_PBLimiter
             {
                 pbPair[entity.EntityId] = new PBTracker(entity, runtime);
             }
+
+            Log.Info("Add Or Update");
         }
 
         public static void IteratePBs(double maxAvgMs)

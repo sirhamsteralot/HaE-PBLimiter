@@ -1,12 +1,15 @@
 ﻿using Torch.API;
 using Torch.Managers;
 using Torch.Managers.PatchManager;
+using NLog;
 
 
 namespace HaE_PBLimiter
 {
     public class PBProfilerManager : Manager
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 #pragma warning disable 649
         [Dependency(Ordered = false)]
         private readonly PatchManager _patchMgr;
@@ -29,6 +32,8 @@ namespace HaE_PBLimiter
                 _patchContext = _patchMgr.AcquireContext();
                 PBProfilerPatch.Patch(_patchContext);
             }
+
+            Log.Info("Attached");
         }
 
         /// <inheritdoc cref="Manager.Detach"/>
@@ -40,6 +45,8 @@ namespace HaE_PBLimiter
                 _patched = false;
                 _patchMgr.FreeContext(_patchContext);
             }
+
+            Log.Info("Detached");
         }
     }
 }
