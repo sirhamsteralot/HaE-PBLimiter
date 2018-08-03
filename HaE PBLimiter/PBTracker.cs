@@ -19,15 +19,27 @@ using VRage.Game;
 using VRageMath;
 using Torch;
 using Torch.Server;
+using System.Xml;
+using System.Xml.Serialization;
+using HaE_PBLimiter.UI;
 
 namespace HaE_PBLimiter
 {
     public class PBTracker
     {
-        
+        public double PBID => PB.EntityId;
+        public double AverageMS => averageMs;
+
+        [XmlIgnore()]
         public MyProgrammableBlock PB;
 
+        [XmlIgnore()]
         public double averageMs;
+
+        public PBTracker()
+        {
+
+        }
 
         public PBTracker(MyProgrammableBlock PB, double average)
         {
@@ -35,6 +47,8 @@ namespace HaE_PBLimiter
 
             double Ms = average * 1000;
             this.averageMs += 0.01 * Ms;
+
+            ProfilerConfig.Trackers.Add(this);
         }
 
         public void UpdatePerformance(double dt)

@@ -8,28 +8,46 @@ using System.Linq;
 using System.Text;
 using System;
 using Sandbox;
+using System.IO;
 using Sandbox.Game;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Blocks;
 using VRage;
 using VRage.Game;
 using VRage.Game.Entity;
-using Torch.API.Plugins;
-using Torch.API;
 using Torch;
+using Torch.API;
+using Torch.API.Plugins;
+using Torch.Server;
+using Torch.Server.Views;
+using Torch.Server.ViewModels;
+using Torch.Utils;
+using Torch.Views;
+using Torch.ViewModels;
+
 using HaE_PBLimiter.Equinox;
+using HaE_PBLimiter.UI;
+using System.Windows.Controls;
 
 namespace HaE_PBLimiter
 {
-    public class PBLimiter_Logic : TorchPluginBase
+    public class PBLimiter_Logic : TorchPluginBase, IWpfPlugin
     {
         const double maxAVGMs = 0.1;
+
+        private PBLimiterUsercontrol _control;
+        public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));
+
+        private Persistent<ProfilerConfig> _config;
+        public ProfilerConfig Config => _config?.Data;
 
         public override void Init(ITorchBase torch)
         {
             torch.GameStateChanged += OnGameStateChanged;
             var pgmr = new PBProfilerManager(torch);
             torch.Managers.AddManager(pgmr);
+
+            _config = Persistent<ProfilerConfig>.Load(Path.Combine(StoragePath, "Profiler.cfg"));
         }
 
         private void OnGameStateChanged(MySandboxGame game, TorchGameState newState)

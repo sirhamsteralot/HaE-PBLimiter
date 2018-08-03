@@ -157,6 +157,16 @@
     <Compile Include="PBTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Equinox\ReflectionUtils.cs" />
+    <Compile Include="UI\ProfilerConfig.cs" />
+    <Compile Include="UI\PBLimiterUsercontrol.xaml.cs">
+      <DependentUpon>PBLimiterUsercontrol.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\PBLimiterUsercontrol.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
