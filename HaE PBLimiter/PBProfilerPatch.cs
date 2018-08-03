@@ -47,7 +47,9 @@ namespace HaE_PBLimiter
 
         private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
-            long dt = Stopwatch.Frequency * (Stopwatch.GetTimestamp() - __localTimingStart);
+            var dtInSeconds = (Stopwatch.GetTimestamp() - __localTimingStart) / (double)Stopwatch.Frequency;
+
+            PBData.AddOrUpdatePair(__instance, dtInSeconds);
         }
     }
 }

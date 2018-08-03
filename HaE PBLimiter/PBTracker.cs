@@ -17,27 +17,47 @@ using VRage.Game.ModAPI.Ingame.Utilities;
 using VRage.Game.ObjectBuilders.Definitions;
 using VRage.Game;
 using VRageMath;
+using Torch;
+using Torch.Server;
 
 namespace HaE_PBLimiter
 {
     public class PBTracker
     {
+        
         public MyProgrammableBlock PB;
 
-        public double sum;
-        public double average;
+        public double averageMs;
 
-        public double[] performanceHistory = new double[100];
-
-        public void UpdatePerformance()
+        public PBTracker(MyProgrammableBlock PB, double average)
         {
+            this.PB = PB;
 
+            double Ms = average * 1000;
+            this.averageMs += 0.01 * Ms;
         }
 
-
-        private void CalculateAverage()
+        public void UpdatePerformance(double dt)
         {
-            average = sum / performanceHistory.Length;
+            var ms = dt * 1000;
+
+            averageMs = 0.99 * averageMs + 0.01 * ms;
+        }
+
+        public void CheckMax(double maximumAverageMS)
+        {
+            if (averageMs > maximumAverageMS)
+            {
+                DamagePB();
+            }
+        }
+
+        private void DamagePB()
+        {
+            if (!PB.IsFunctional)
+                return;
+            var damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
+            TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire); });
         }
     }
 }

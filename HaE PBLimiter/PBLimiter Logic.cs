@@ -23,6 +23,8 @@ namespace HaE_PBLimiter
 {
     public class PBLimiter_Logic : TorchPluginBase
     {
+        const double maxAVGMs = 0.1;
+
         public override void Init(ITorchBase torch)
         {
             torch.GameStateChanged += OnGameStateChanged;
@@ -32,7 +34,7 @@ namespace HaE_PBLimiter
 
         private void OnGameStateChanged(MySandboxGame game, TorchGameState newState)
         {
-            if ((newState & TorchGameState.Loaded) != 0)
+            if ((newState & TorchGameState.Loaded) == TorchGameState.Loaded)
             {
                 Torch.Managers.GetManager(typeof(PBProfilerManager)).Attach();
             }
@@ -40,6 +42,13 @@ namespace HaE_PBLimiter
             {
                 Torch.Managers.GetManager(typeof(PBProfilerManager)).Detach();
             }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            PBData.IteratePBs(maxAVGMs);
         }
     }
 }
