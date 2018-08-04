@@ -35,7 +35,6 @@ namespace HaE_PBLimiter
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        const double maxAVGMs = 0.5;
 
         private PBLimiterUsercontrol _control;
         public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));
@@ -68,8 +67,6 @@ namespace HaE_PBLimiter
         public override void Update()
         {
             base.Update();
-
-            PBData.IteratePBs(maxAVGMs);
         }
     }
 }

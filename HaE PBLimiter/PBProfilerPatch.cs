@@ -48,7 +48,6 @@ namespace HaE_PBLimiter
         private static void PrefixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
             __localTimingStart = Stopwatch.GetTimestamp();
-            Log.Info("PBRun");
         }
 
         private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)

@@ -31,13 +31,14 @@ namespace HaE_PBLimiter
         public double PBID => PB.EntityId;
         public double AverageMS => averageMs;
 
-        [XmlIgnore()]
         public MyProgrammableBlock PB;
 
-        [XmlIgnore()]
         public double averageMs;
 
         public bool IsFunctional => PB.IsFunctional;
+
+        private int StartupTicks => ProfilerConfig.startupTicks;
+        private int startTick;
 
 
         public PBTracker()
@@ -48,13 +49,17 @@ namespace HaE_PBLimiter
         public PBTracker(MyProgrammableBlock PB, double average)
         {
             this.PB = PB;
-
-            double Ms = average * 1000;
-            this.averageMs += 0.01 * Ms;
         }
 
         public void UpdatePerformance(double dt)
         {
+            if (startTick < StartupTicks)
+            {
+                startTick++;
+                return;
+            }
+ 
+
             var ms = dt * 1000;
 
             averageMs = 0.99 * averageMs + 0.01 * ms;
@@ -75,6 +80,9 @@ namespace HaE_PBLimiter
 
             var damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
             TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire); });
+
+            averageMs = 0;
+            startTick = 0;
         }
     }
 }

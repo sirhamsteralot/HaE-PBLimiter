@@ -13,6 +13,7 @@ using Sandbox.Game.World;
 using VRage;
 using VRage.Entities;
 using NLog;
+using System.Threading;
 
 
 namespace HaE_PBLimiter
@@ -20,6 +21,8 @@ namespace HaE_PBLimiter
     public class PBData
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        private static Timer timer = new Timer(IteratePBs, null, 0, 1000);
 
 
         public static Dictionary<long, PBTracker> pbPair = new Dictionary<long, PBTracker>();
@@ -34,16 +37,15 @@ namespace HaE_PBLimiter
                 pbPair[entity.EntityId] = new PBTracker(entity, runtime);
             }
 
-            Log.Info("Add Or Update");
         }
 
-        public static void IteratePBs(double maxAvgMs)
+        public static void IteratePBs(object src)
         {
             lock (pbPair)
             {
                 foreach (var tracker in pbPair.Values)
                 {
-                    tracker.CheckMax(maxAvgMs);
+                    tracker.CheckMax(ProfilerConfig.maxTickTime);
                 }
             }
         }
