@@ -60,7 +60,7 @@ namespace HaE_PBLimiter
             {
                 Torch.Managers.GetManager(typeof(PBProfilerManager)).Attach();
             }
-            else
+            else if ((newState & TorchGameState.Unloading) != 0)
             {
                 Torch.Managers.GetManager(typeof(PBProfilerManager)).Detach();
             }
