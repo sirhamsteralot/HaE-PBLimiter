@@ -27,7 +27,6 @@ using Torch.Views;
 using Torch.ViewModels;
 
 using HaE_PBLimiter.Equinox;
-using HaE_PBLimiter.UI;
 using System.Windows.Controls;
 
 namespace HaE_PBLimiter
@@ -36,7 +35,7 @@ namespace HaE_PBLimiter
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        const double maxAVGMs = 0.0001;
+        const double maxAVGMs = 0.5;
 
         private PBLimiterUsercontrol _control;
         public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));

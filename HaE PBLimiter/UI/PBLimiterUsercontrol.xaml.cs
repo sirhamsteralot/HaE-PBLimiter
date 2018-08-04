@@ -12,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HaE_PBLimiter;
+using System.Threading;
 
-namespace HaE_PBLimiter.UI
+namespace HaE_PBLimiter
 {
     /// <summary>
     /// Interaction logic for UserControl.xaml
@@ -21,6 +23,7 @@ namespace HaE_PBLimiter.UI
     public partial class PBLimiterUsercontrol : UserControl
     {
         private PBLimiter_Logic Plugin { get; }
+        private Timer timer;
 
         public PBLimiterUsercontrol()
         {
@@ -31,6 +34,19 @@ namespace HaE_PBLimiter.UI
         {
             Plugin = plugin;
             DataContext = plugin.Config;
+
+            timer = new Timer(Refresh, this, 0, 1000);
+
+        }
+
+        private void Refresh(object state)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                DataGrid1.ItemsSource = null;
+                DataGrid1.ItemsSource = ProfilerConfig.Trackers;
+            }));
+
         }
     }
 }

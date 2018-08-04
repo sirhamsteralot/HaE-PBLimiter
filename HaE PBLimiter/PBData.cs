@@ -2,6 +2,7 @@
 using HaE_PBLimiter.Equinox;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace HaE_PBLimiter
     public class PBData
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 
         public static Dictionary<long, PBTracker> pbPair = new Dictionary<long, PBTracker>();
 

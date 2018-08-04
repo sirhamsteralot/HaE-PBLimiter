@@ -21,7 +21,8 @@ using Torch;
 using Torch.Server;
 using System.Xml;
 using System.Xml.Serialization;
-using HaE_PBLimiter.UI;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace HaE_PBLimiter
 {
@@ -35,6 +36,9 @@ namespace HaE_PBLimiter
 
         [XmlIgnore()]
         public double averageMs;
+
+        public bool IsFunctional => PB.IsFunctional;
+
 
         public PBTracker()
         {
@@ -68,6 +72,7 @@ namespace HaE_PBLimiter
         {
             if (!PB.IsFunctional)
                 return;
+
             var damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
             TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire); });
         }
