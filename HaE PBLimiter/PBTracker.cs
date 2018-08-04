@@ -28,7 +28,7 @@ namespace HaE_PBLimiter
 {
     public class PBTracker
     {
-        public double PBID => PB.EntityId;
+        public string PBID { get { return $"{PB.CubeGrid.Name}-{PB.CustomName}"; } }
         public double AverageMS => averageMs;
 
         public MyProgrammableBlock PB;
