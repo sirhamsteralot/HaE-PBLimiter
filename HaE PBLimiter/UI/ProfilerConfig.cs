@@ -10,6 +10,6 @@ namespace HaE_PBLimiter.UI
 {
     public class ProfilerConfig
     {
-        public static ObservableCollection<PBTracker> Trackers { get; } = new ObservableCollection<PBTracker>();
+        public static ObservableCollection<PBTracker> Trackers => new ObservableCollection<PBTracker>(PBData.pbPair.Values);
     }
 }

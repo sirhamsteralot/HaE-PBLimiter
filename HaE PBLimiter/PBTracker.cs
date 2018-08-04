@@ -47,8 +47,6 @@ namespace HaE_PBLimiter
 
             double Ms = average * 1000;
             this.averageMs += 0.01 * Ms;
-
-            ProfilerConfig.Trackers.Add(this);
         }
 
         public void UpdatePerformance(double dt)
