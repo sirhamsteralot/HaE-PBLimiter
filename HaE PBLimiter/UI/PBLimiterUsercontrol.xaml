@@ -21,7 +21,25 @@
         <local:ProfilerConfig/>
     </UserControl.DataContext>
     <StackPanel>
-        <Label Content="PB's" Margin="0,0,0,0"></Label>
+        <Grid x:Name="Settings">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Text="MaxPB MS" Margin="10"/>
+            <TextBox Name="MaxMS" Grid.Column="1" Margin="10" Text="{Binding maxTickTime}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="1"  Text="Ignore first runs" Margin="10"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Name="StartRuns" Margin="10" ToolTip="this gives the jitter time to jit without breaking the pb" Text="{Binding startupTicks}"/>
+        </Grid>
+
+
         <DataGrid Name="DataGrid1" ItemsSource="{Binding Trackers, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
     </StackPanel>
 </UserControl>

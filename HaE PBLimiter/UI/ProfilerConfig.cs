@@ -12,13 +12,15 @@ namespace HaE_PBLimiter
 {
     public class ProfilerConfig
     {
+        private static int _startupTicks;
+        public static int startupTicks { get { return _startupTicks; } set { _startupTicks = value; PBLimiter_Logic.Save(); } }
+        public int SerializeWrapTicks { get { return _startupTicks; } set { _startupTicks = value;} }
+
+        private static double _maxTickTime;
+        public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
+        public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value;} }
+
         [XmlIgnore()]
         public static ObservableCollection<PBTracker> Trackers => new ObservableCollection<PBTracker>(PBData.pbPair.Values);
-
-        private static int _startupTicks = 10;
-        public static int startupTicks => _startupTicks;
-
-        private static double _maxTickTime = 0.5;
-        public static double maxTickTime => _maxTickTime;
     }
 }

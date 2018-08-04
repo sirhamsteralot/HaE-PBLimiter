@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HaE_PBLimiter;
 using System.Threading;
+using NLog;
 
 namespace HaE_PBLimiter
 {
@@ -22,6 +23,7 @@ namespace HaE_PBLimiter
     /// </summary>
     public partial class PBLimiterUsercontrol : UserControl
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private PBLimiter_Logic Plugin { get; }
         private Timer timer;
 

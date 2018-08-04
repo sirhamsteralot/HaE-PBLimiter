@@ -39,8 +39,8 @@ namespace HaE_PBLimiter
         private PBLimiterUsercontrol _control;
         public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));
 
-        private ProfilerConfig _config;
-        public ProfilerConfig Config => _config;
+        private static Persistent<ProfilerConfig> _config;
+        public ProfilerConfig Config => _config?.Data;
 
         public override void Init(ITorchBase torch)
         {
@@ -48,8 +48,22 @@ namespace HaE_PBLimiter
             var pgmr = new PBProfilerManager(torch);
             torch.Managers.AddManager(pgmr);
 
-            _config = new ProfilerConfig();
+            _config = Persistent<ProfilerConfig>.Load(Path.Combine(StoragePath, "PBLimiter.cfg"));
+
             Log.Info("PBLimiter loaded!");
+        }
+
+        public static void Save()
+        {
+            try
+            {
+                _config.Save();
+                Log.Info("Configuration Saved.");
+            }
+            catch (IOException)
+            {
+                Log.Warn("Configuration failed to save");
+            }
         }
 
         private void OnGameStateChanged(MySandboxGame game, TorchGameState newState)
@@ -67,6 +81,12 @@ namespace HaE_PBLimiter
         public override void Update()
         {
             base.Update();
+        }
+
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            Save();
         }
     }
 }
