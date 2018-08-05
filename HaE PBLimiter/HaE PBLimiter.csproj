@@ -151,7 +151,7 @@
   <ItemGroup>
     <Compile Include="Equinox\SlimProfilerEntry.cs" />
     <Compile Include="PBData.cs" />
-    <Compile Include="PBLimiter Logic.cs" />
+    <Compile Include="PBLimiter_Logic.cs" />
     <Compile Include="PBProfilerManager.cs" />
     <Compile Include="PBProfilerPatch.cs" />
     <Compile Include="PBTracker.cs" />
