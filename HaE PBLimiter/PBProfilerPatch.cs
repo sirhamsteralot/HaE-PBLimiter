@@ -31,6 +31,9 @@ namespace HaE_PBLimiter
         [ReflectedMethodInfo(typeof(MyProgrammableBlock), "ExecuteCode")]
         private static readonly MethodInfo _programmableRunSandboxed;
 
+        [ReflectedMethodInfo(typeof(MyProgrammableBlock), "Compile")]
+        private static readonly MethodInfo _programableRecompile;
+
 
         public static void Patch(PatchContext ctx)
         {
@@ -38,6 +41,7 @@ namespace HaE_PBLimiter
 
             ctx.GetPattern(_programmableRunSandboxed).Prefixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(PrefixProfilePb)));
             ctx.GetPattern(_programmableRunSandboxed).Suffixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(SuffixProfilePb)));
+            ctx.GetPattern(_programableRecompile).Suffixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(PrefixRecompilePb)));
 
             Log.Info("Finished Patching!");
         }
@@ -56,5 +60,10 @@ namespace HaE_PBLimiter
             PBData.AddOrUpdatePair(__instance, dtInSeconds);
         }
 
+        private static void PrefixRecompilePb(MyProgrammableBlock __instance)
+        {
+            if (PBData.pbPair.ContainsKey(__instance.EntityId))
+                PBData.pbPair[__instance.EntityId].SetRecompiled();
+        }
     }
 }

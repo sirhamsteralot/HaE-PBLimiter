@@ -75,6 +75,12 @@ namespace HaE_PBLimiter
             }
         }
 
+        public void SetRecompiled()
+        {
+            averageMs = 0;
+            startTick = 0;
+        }
+
         private void DamagePB()
         {
             if (!PB.IsFunctional)
