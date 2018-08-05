@@ -34,6 +34,7 @@ namespace HaE_PBLimiter
     public class PBLimiter_Logic : TorchPluginBase, IWpfPlugin
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        internal static ITorchBase server;
 
 
         private PBLimiterUsercontrol _control;
@@ -49,6 +50,8 @@ namespace HaE_PBLimiter
             torch.Managers.AddManager(pgmr);
 
             _config = Persistent<ProfilerConfig>.Load(Path.Combine(StoragePath, "PBLimiter.cfg"));
+
+            server = torch;
 
             Log.Info("PBLimiter loaded!");
         }
