@@ -25,8 +25,6 @@ using Torch.Server.ViewModels;
 using Torch.Utils;
 using Torch.Views;
 using Torch.ViewModels;
-
-using HaE_PBLimiter.Equinox;
 using System.Windows.Controls;
 
 namespace HaE_PBLimiter

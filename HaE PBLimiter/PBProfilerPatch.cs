@@ -20,7 +20,6 @@ using VRage.Game.Components;
 using VRage.Game.Entity;
 using VRage.Game.Entity.EntityComponents.Interfaces;
 using VRage.ModAPI;
-using HaE_PBLimiter.Equinox;
 
 namespace HaE_PBLimiter
 {
