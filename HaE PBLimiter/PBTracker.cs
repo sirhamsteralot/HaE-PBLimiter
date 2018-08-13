@@ -91,8 +91,9 @@ namespace HaE_PBLimiter
 
             averageMs = 0;
             startTick = 0;
-
-            PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>().SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", MyFontEnum.Red, MySession.Static.Players.TryGetSteamId(PB.OwnerId));
+            double PBOwnerID = MySession.Static.Players.TryGetSteamId(PB.OwnerId)
+            
+            if(PBOwnerID != 0) {PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>().SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", MyFontEnum.Red, MySession.Static.Players.TryGetSteamId(PB.OwnerId))}
         }
     }
 }
