@@ -31,11 +31,14 @@ namespace HaE_PBLimiter
             if (pbPair.ContainsKey(entity.EntityId))
             {
                 pbPair[entity.EntityId].UpdatePerformance(runtime);
-            } else
-            {
-                pbPair[entity.EntityId] = new PBTracker(entity, runtime);
             }
-
+            else
+            {
+                lock (pbPair)
+                {
+                    pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+                }
+            }
         }
 
         public static void IteratePBs(object src)
