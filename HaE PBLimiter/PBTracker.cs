@@ -87,17 +87,13 @@ namespace HaE_PBLimiter
                 return;
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
-            bool didDamage = false;
-            TorchBase.Instance.Invoke(() => { didDamage = PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
+            TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
 
-            if (didDamage)
-            {
-                averageMs = 0;
-                startTick = 0;
-                ulong PBOwnerID = MySession.Static.Players.TryGetSteamId(PB.OwnerId);
-
-                if (PBOwnerID != 0) { PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>().SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", MyFontEnum.Red, PBOwnerID); }
-            }
+            averageMs = 0;
+            startTick = 0;
+            ulong PBOwnerID = MySession.Static.Players.TryGetSteamId(PB.OwnerId);
+            
+            if(PBOwnerID != 0) { PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>().SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", MyFontEnum.Red, PBOwnerID); }
         }
     }
 }
