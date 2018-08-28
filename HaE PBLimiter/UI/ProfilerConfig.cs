@@ -20,6 +20,10 @@ namespace HaE_PBLimiter
         public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
         public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value;} }
 
+        private static bool _perPlayer = false;
+        public static bool perPlayer { get { return _perPlayer; } set { _perPlayer = value; PBLimiter_Logic.Save(); } }
+        public bool SerializeWrapPerPlayer { get { return _perPlayer; } set { _perPlayer = value; } }
+
         [XmlIgnore()]
         public static ObservableCollection<PBTracker> Trackers => new ObservableCollection<PBTracker>(PBData.pbPair.Values);
     }

@@ -43,10 +43,31 @@ namespace HaE_PBLimiter
 
         public static void IteratePBs(object src)
         {
+            foreach (var player in PBPlayerTracker.players.Values)
+            {
+                player.ms = 0;
+            }
+
+            
+
             lock (pbPair)
             {
                 foreach (var tracker in pbPair.Values)
                 {
+                    long pbOwner = tracker.PB.OwnerId;
+                    if (ProfilerConfig.perPlayer)
+                    {
+
+                        if (!PBPlayerTracker.players.ContainsKey(pbOwner))
+                        {
+                            PBPlayerTracker.players.Add(pbOwner, new PBPlayerTracker.Player());
+                        }
+
+                        tracker.CheckMax(pbOwner ,ProfilerConfig.maxTickTime);
+                        continue;
+                    }
+                        
+
                     tracker.CheckMax(ProfilerConfig.maxTickTime);
                 }
             }

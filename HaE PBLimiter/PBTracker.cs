@@ -30,13 +30,16 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using NLog;
 
 namespace HaE_PBLimiter
 {
     public class PBTracker
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public string PBID { get { return $"{PB.CubeGrid.DisplayName}-{PB.CustomName}"; } }        
-        public bool IsFunctional => PB.IsFunctional;
+        public bool IsEnabled => PB.Enabled;
         public double AverageMS => averageMs;
         public string Owner => MySession.Static.Players.TryGetIdentity(PB.OwnerId).DisplayName;
 
@@ -70,6 +73,16 @@ namespace HaE_PBLimiter
         public void CheckMax(double maximumAverageMS)
         {
             if (averageMs > maximumAverageMS)
+            {
+                DamagePB();
+            }
+        }
+
+        public void CheckMax(long owner, double maximumAverageMS)
+        {
+            PBPlayerTracker.players[owner].ms += averageMs;
+
+            if (PBPlayerTracker.players[owner].ms > maximumAverageMS)
             {
                 DamagePB();
             }

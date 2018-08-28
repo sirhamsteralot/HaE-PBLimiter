@@ -151,6 +151,7 @@
   <ItemGroup>
     <Compile Include="PBData.cs" />
     <Compile Include="PBLimiter_Logic.cs" />
+    <Compile Include="PBPlayerTracker.cs" />
     <Compile Include="PBProfilerManager.cs" />
     <Compile Include="PBProfilerPatch.cs" />
     <Compile Include="PBTracker.cs" />
