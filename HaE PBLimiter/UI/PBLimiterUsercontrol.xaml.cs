@@ -50,5 +50,11 @@ namespace HaE_PBLimiter
             }));
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var overrideEditor = new OverrideEditor();
+            overrideEditor.Show();
+        }
     }
 }

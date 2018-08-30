@@ -14,15 +14,19 @@ namespace HaE_PBLimiter
     {
         private static int _startupTicks = 20;
         public static int startupTicks { get { return _startupTicks; } set { _startupTicks = value; PBLimiter_Logic.Save(); } }
-        public int SerializeWrapTicks { get { return _startupTicks; } set { _startupTicks = value;} }
+        public int SerializeWrapTicks { get { return _startupTicks; } set { _startupTicks = value; } }
 
         private static double _maxTickTime = 0.5;
         public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
-        public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value;} }
+        public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value; } }
 
         private static bool _perPlayer = false;
         public static bool perPlayer { get { return _perPlayer; } set { _perPlayer = value; PBLimiter_Logic.Save(); } }
         public bool SerializeWrapPerPlayer { get { return _perPlayer; } set { _perPlayer = value; } }
+
+        private static ObservableCollection<Player> _playerOverrides = new ObservableCollection<Player>();
+        public ObservableCollection<Player> PlayerOverrides => _playerOverrides;
+
 
         [XmlIgnore()]
         public static ObservableCollection<PBTracker> Trackers => new ObservableCollection<PBTracker>(PBData.pbPair.Values);

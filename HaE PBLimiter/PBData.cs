@@ -60,7 +60,7 @@ namespace HaE_PBLimiter
 
                         if (!PBPlayerTracker.players.ContainsKey(pbOwner))
                         {
-                            PBPlayerTracker.players.Add(pbOwner, new PBPlayerTracker.Player());
+                            PBPlayerTracker.players.Add(pbOwner, new Player());
                         }
 
                         tracker.CheckMax(pbOwner ,ProfilerConfig.maxTickTime);
