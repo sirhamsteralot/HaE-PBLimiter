@@ -11,7 +11,6 @@ namespace HaE_PBLimiter
     public class Player
     {
         private string _name;
-        [XmlIgnore()]
         public string Name { get { return _name; } set { _name = value; PBLimiter_Logic.Save(); } }
 
         private double _personalMaxMs;
