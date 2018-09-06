@@ -25,7 +25,8 @@ namespace HaE_PBLimiter
         public bool SerializeWrapPerPlayer { get { return _perPlayer; } set { _perPlayer = value; } }
 
         private static ObservableCollection<Player> _playerOverrides = new ObservableCollection<Player>();
-        public ObservableCollection<Player> PlayerOverrides => _playerOverrides;
+        public static ObservableCollection<Player> PlayerOverrides => _playerOverrides;
+        public ObservableCollection<Player> SerializeWrapPlayerOverrides { get => _playerOverrides; set { _playerOverrides = value; } }
 
 
         [XmlIgnore()]

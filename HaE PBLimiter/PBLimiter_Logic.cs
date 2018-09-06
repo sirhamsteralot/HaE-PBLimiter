@@ -51,7 +51,14 @@ namespace HaE_PBLimiter
 
             server = torch;
 
+            ProfilerConfig.PlayerOverrides.CollectionChanged += PlayerOverrides_CollectionChanged;
+
             Log.Info("PBLimiter loaded!");
+        }
+
+        private void PlayerOverrides_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            PBPlayerTracker.OnListChanged();
         }
 
         public static void Save()

@@ -10,8 +10,6 @@ namespace HaE_PBLimiter
 {
     public class Player
     {
-        public long identityId;
-
         private string _name;
         [XmlIgnore()]
         public string Name { get { return _name; } set { _name = value; PBLimiter_Logic.Save(); } }
@@ -26,6 +24,13 @@ namespace HaE_PBLimiter
         public double ms;
 
         public Player() { }
+
+        public Player(string name, double personalMaxMs, bool overrideEnabled)
+        {
+            _name = name;
+            _personalMaxMs = personalMaxMs;
+            _overrideEnabled = overrideEnabled;
+        }
 
         public void Reset()
         {

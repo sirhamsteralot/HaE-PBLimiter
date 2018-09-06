@@ -55,6 +55,14 @@ namespace HaE_PBLimiter
                 foreach (var tracker in pbPair.Values)
                 {
                     long pbOwner = tracker.PB.OwnerId;
+                    string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
+                    double overriddenMax = ProfilerConfig.maxTickTime;
+
+                    var player = PBPlayerTracker.players[pbOwner];
+
+                    if (player != null)
+                        overriddenMax = player.PersonalMaxMs;
+
                     if (ProfilerConfig.perPlayer)
                     {
 
@@ -63,12 +71,12 @@ namespace HaE_PBLimiter
                             PBPlayerTracker.players.Add(pbOwner, new Player());
                         }
 
-                        tracker.CheckMax(pbOwner ,ProfilerConfig.maxTickTime);
+                        tracker.CheckMax(pbOwner , overriddenMax);
                         continue;
                     }
                         
 
-                    tracker.CheckMax(ProfilerConfig.maxTickTime);
+                    tracker.CheckMax(overriddenMax);
                 }
             }
         }
