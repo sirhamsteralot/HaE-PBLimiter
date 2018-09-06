@@ -11,13 +11,13 @@ namespace HaE_PBLimiter
     public class Player
     {
         private string _name;
-        public string Name { get { return _name; } set { _name = value; PBLimiter_Logic.Save(); } }
+        public string Name { get { return _name; } set { _name = value;} }
 
         private double _personalMaxMs;
-        public double PersonalMaxMs { get { return _personalMaxMs; } set { _personalMaxMs = value; PBLimiter_Logic.Save(); } }
+        public double PersonalMaxMs { get { return _personalMaxMs; } set { _personalMaxMs = value;} }
 
         private bool _overrideEnabled;
-        public bool OverrideEnabled { get { return _overrideEnabled; } set { _overrideEnabled = value; PBLimiter_Logic.Save(); } }
+        public bool OverrideEnabled { get { return _overrideEnabled; } set { _overrideEnabled = value;} }
 
         [XmlIgnore()]
         public double ms;

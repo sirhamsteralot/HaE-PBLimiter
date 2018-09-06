@@ -59,6 +59,7 @@ namespace HaE_PBLimiter
         private void PlayerOverrides_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             PBPlayerTracker.OnListChanged();
+            Save();
         }
 
         public static void Save()

@@ -54,7 +54,14 @@ namespace HaE_PBLimiter
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var overrideEditor = new OverrideEditor();
+            overrideEditor.SizeToContent = SizeToContent.WidthAndHeight;
+            overrideEditor.Closed += OverrideEditor_Closed;
             overrideEditor.Show();
+        }
+
+        private void OverrideEditor_Closed(object sender, EventArgs e)
+        {
+            PBLimiter_Logic.Save();
         }
     }
 }

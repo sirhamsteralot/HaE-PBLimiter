@@ -58,9 +58,9 @@ namespace HaE_PBLimiter
                     string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
                     double overriddenMax = ProfilerConfig.maxTickTime;
 
-                    if (PBPlayerTracker.players.ContainsKey(pbOwner))
+                    if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
                     {
-                        var player = PBPlayerTracker.players[pbOwner];
+                        var player = PBPlayerTracker.playerOverrideDict[ownerName];
 
                         if (player != null && player.OverrideEnabled)
                             overriddenMax = player.PersonalMaxMs;
