@@ -19,6 +19,8 @@ namespace HaE_PBLimiter
             foreach (var entry in ProfilerConfig.PlayerOverrides)
             {
                 var player = new Player(entry.Name, entry.PersonalMaxMs, entry.OverrideEnabled);
+                if (player.Name == null)
+                    return;
 
                 playerOverrideDict.Add(player.Name, player);
             }
