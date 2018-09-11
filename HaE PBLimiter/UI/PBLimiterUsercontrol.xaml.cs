@@ -59,6 +59,12 @@ namespace HaE_PBLimiter
             overrideEditor.Show();
         }
 
+        void DataGrid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            grid.CommitEdit(DataGridEditingUnit.Row, true);
+        }
+
         private void OverrideEditor_Closed(object sender, EventArgs e)
         {
             PBLimiter_Logic.Save();

@@ -12,7 +12,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <DataGrid HorizontalAlignment="Left" Height="403" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding PlayerOverrides}" RenderTransformOrigin="0.503,0.304"/>
+        <DataGrid Name="Data" HorizontalAlignment="Left" Height="403" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto" ItemsSource="{Binding PlayerOverrides}" RenderTransformOrigin="0.503,0.304"/>
 
         <Grid/>
     </Grid>

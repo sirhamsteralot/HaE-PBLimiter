@@ -23,6 +23,14 @@ namespace HaE_PBLimiter
         public EditorUserControl()
         {
             InitializeComponent();
+
+            Data.Unloaded += DataGrid_Unloaded;
+        }
+
+        void DataGrid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            grid.CommitEdit(DataGridEditingUnit.Row, true);
         }
     }
 }
