@@ -36,12 +36,12 @@
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="MaxPB MS" Margin="10"/>
             <TextBox Name="MaxMS" Grid.Column="1" Margin="10" Text="{Binding maxTickTime}"/>
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="10" Text="Per Player" />
-            <CheckBox Grid.Column="3" VerticalAlignment="Center" IsChecked="{Binding perPlayer}" />
+            <CheckBox Grid.Column="3" VerticalAlignment="Center" IsChecked="{Binding perPlayer}" RenderTransformOrigin="-1.688,0.467" />
 
             <TextBlock Grid.Column="0" Grid.Row="1"  VerticalAlignment="Center" Text="Ignore first runs" Margin="10"/>
             <TextBox Grid.Column="1" Grid.Row="1" Name="StartRuns" Margin="10" ToolTip="this gives the jitter time to jit without breaking the pb" Text="{Binding startupTicks}"/>
-            
-            <Button Grid.ColumnSpan="2" Content="Exceptions" Grid.Column="2" HorizontalAlignment="Left" Margin="3,9,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+
+            <Button Content="Exceptions" Grid.Column="2" HorizontalAlignment="Left" Margin="10,9,0,0" Grid.Row="1" VerticalAlignment="Top" Width="68" Click="Button_Click" Grid.ColumnSpan="2"/>
         </Grid>
 
 
