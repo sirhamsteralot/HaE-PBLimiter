@@ -53,12 +53,14 @@ namespace HaE_PBLimiter
 
             ProfilerConfig.PlayerOverrides.CollectionChanged += PlayerOverrides_CollectionChanged;
 
+            PBPlayerTracker.OnListChanged();
             Log.Info("PBLimiter loaded!");
         }
 
         private void PlayerOverrides_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             PBPlayerTracker.OnListChanged();
+            Log.Info("Configuration changed!");
             Save();
         }
 
