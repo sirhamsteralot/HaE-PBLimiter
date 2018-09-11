@@ -27,9 +27,5 @@ namespace HaE_PBLimiter
         private static ObservableCollection<Player> _playerOverrides = new ObservableCollection<Player>();
         public static ObservableCollection<Player> PlayerOverrides => _playerOverrides;
         public ObservableCollection<Player> SerializeWrapPlayerOverrides { get => _playerOverrides; set { _playerOverrides = value; } }
-
-
-        [XmlIgnore()]
-        public static ObservableCollection<PBTracker> Trackers => new ObservableCollection<PBTracker>(PBData.pbPair.Values);
     }
 }

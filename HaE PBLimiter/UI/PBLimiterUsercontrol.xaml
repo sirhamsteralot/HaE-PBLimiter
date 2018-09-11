@@ -45,6 +45,6 @@
         </Grid>
 
 
-        <DataGrid Name="DataGrid1" ItemsSource="{Binding Trackers, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+        <DataGrid Name="DataGrid1" Margin="10"/>
     </StackPanel>
 </UserControl>
