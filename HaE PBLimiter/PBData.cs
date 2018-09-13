@@ -54,9 +54,15 @@ namespace HaE_PBLimiter
             {
                 foreach (var tracker in pbPair.Values)
                 {
+                    if (tracker.PB == null)
+                        continue;
+
                     long pbOwner = tracker.PB.OwnerId;
                     string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
                     double overriddenMax = ProfilerConfig.maxTickTime;
+
+                    if (ownerName == null)
+                        ownerName = "";
 
                     if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
                     {
