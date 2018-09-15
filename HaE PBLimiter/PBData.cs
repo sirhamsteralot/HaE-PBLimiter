@@ -43,52 +43,58 @@ namespace HaE_PBLimiter
 
         public static void IteratePBs(object src)
         {
-            foreach (var player in PBPlayerTracker.players.Values)
+            try
             {
-                player.ms = 0;
-            }
-
-            
-
-            lock (pbPair)
-            {
-                foreach (var tracker in pbPair.Values)
+                foreach (var player in PBPlayerTracker.players.Values)
                 {
-                    if (tracker.PB == null)
-                        continue;
+                    player.ms = 0;
+                }
 
-                    long pbOwner = tracker.PB.OwnerId;
-                    string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
-                    double overriddenMax = ProfilerConfig.maxTickTime;
-
-                    if (ownerName == null)
-                        ownerName = "";
-
-                    if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
+                lock (pbPair)
+                {
+                    foreach (var tracker in pbPair.Values)
                     {
-                        var player = PBPlayerTracker.playerOverrideDict[ownerName];
+                        if (tracker.PB == null)
+                            continue;
 
-                        if (player != null && player.OverrideEnabled)
-                            overriddenMax = player.PersonalMaxMs;
-                    }
-                   
+                        long pbOwner = tracker.PB.OwnerId;
+                        string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
+                        double overriddenMax = ProfilerConfig.maxTickTime;
 
-                    if (ProfilerConfig.perPlayer)
-                    {
+                        if (ownerName == null)
+                            ownerName = "";
 
-                        if (!PBPlayerTracker.players.ContainsKey(pbOwner))
+                        if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
                         {
-                            PBPlayerTracker.players.Add(pbOwner, new Player());
+                            var player = PBPlayerTracker.playerOverrideDict[ownerName];
+
+                            if (player != null && player.OverrideEnabled)
+                                overriddenMax = player.PersonalMaxMs;
                         }
 
-                        tracker.CheckMax(pbOwner , overriddenMax);
-                        continue;
-                    }
-                        
 
-                    tracker.CheckMax(overriddenMax);
+                        if (ProfilerConfig.perPlayer)
+                        {
+
+                            if (!PBPlayerTracker.players.ContainsKey(pbOwner))
+                            {
+                                PBPlayerTracker.players.Add(pbOwner, new Player());
+                            }
+
+                            tracker.CheckMax(pbOwner, overriddenMax);
+                            continue;
+                        }
+
+
+                        tracker.CheckMax(overriddenMax);
+                    }
                 }
+            } catch (Exception e)
+            {
+                Log.Warn(e, "Please report this crash with log on the github page!");
             }
+          
+
         }
     }
 }

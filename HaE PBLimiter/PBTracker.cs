@@ -96,7 +96,7 @@ namespace HaE_PBLimiter
 
         private void DamagePB()
         {
-            if (!PB.IsFunctional)
+            if (PB != null && !PB.IsFunctional)
                 return;
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
