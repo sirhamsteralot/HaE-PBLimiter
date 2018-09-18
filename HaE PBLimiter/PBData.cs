@@ -54,6 +54,7 @@ namespace HaE_PBLimiter
                         if (tracker.PB == null)
                             continue;
 
+
                         long pbOwner = tracker.PB.OwnerId;
                         string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
                         double overriddenMax = ProfilerConfig.maxTickTime;
@@ -79,7 +80,7 @@ namespace HaE_PBLimiter
                 }
             } catch (Exception e)
             {
-                Log.Warn(e, "Please report this crash with log on the github page!");
+                Log.Error(e, $"Please report this crash with log on the github page!");
             }
         }
 
