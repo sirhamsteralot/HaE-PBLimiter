@@ -45,10 +45,7 @@ namespace HaE_PBLimiter
         {
             try
             {
-                foreach (var player in PBPlayerTracker.players.Values)
-                {
-                    player.ms = 0;
-                }
+                ResetPlayerMS();
 
                 lock (pbPair)
                 {
@@ -66,22 +63,13 @@ namespace HaE_PBLimiter
 
                         if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
                         {
-                            var player = PBPlayerTracker.playerOverrideDict[ownerName];
-
-                            if (player != null && player.OverrideEnabled)
-                                overriddenMax = player.PersonalMaxMs;
+                            CheckPlayerMax(ownerName, ref overriddenMax);
                         }
 
 
                         if (ProfilerConfig.perPlayer)
                         {
-
-                            if (!PBPlayerTracker.players.ContainsKey(pbOwner))
-                            {
-                                PBPlayerTracker.players.Add(pbOwner, new Player());
-                            }
-
-                            tracker.CheckMax(pbOwner, overriddenMax);
+                            CheckPerPlayer(tracker, pbOwner, overriddenMax);
                             continue;
                         }
 
@@ -93,8 +81,32 @@ namespace HaE_PBLimiter
             {
                 Log.Warn(e, "Please report this crash with log on the github page!");
             }
-          
+        }
 
+        private static void CheckPerPlayer(PBTracker tracker, long pbOwner, double overriddenMax)
+        {
+            if (!PBPlayerTracker.players.ContainsKey(pbOwner))
+            {
+                PBPlayerTracker.players.Add(pbOwner, new Player());
+            }
+
+            tracker.CheckMax(pbOwner, overriddenMax);
+        }
+
+        private static void CheckPlayerMax(string ownerName, ref double overriddenMax)
+        {
+            var player = PBPlayerTracker.playerOverrideDict[ownerName];
+
+            if (player != null && player.OverrideEnabled)
+                overriddenMax = player.PersonalMaxMs;
+        }
+
+        private static void ResetPlayerMS()
+        {
+            foreach (var player in PBPlayerTracker.players.Values)
+            {
+                player.ms = 0;
+            }
         }
     }
 }
