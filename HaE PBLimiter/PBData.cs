@@ -43,6 +43,29 @@ namespace HaE_PBLimiter
 
         public static void IteratePBs(object src)
         {
+            //These shouldnt ever be null but appearently one of them could be null?!
+
+            if (MySession.Static == null)
+            {
+                Log.Warn("MySession.Static is null!");
+                return;
+            }
+            if (MySession.Static.Players == null)
+            {
+                Log.Warn("MySession.Static.Players is null!");
+                return;
+            }
+            if (PBPlayerTracker.playerOverrideDict == null)
+            {
+                Log.Warn("PBPlayerTracker.playerOverrideDict is null!");
+                return;
+            }
+            if (pbPair == null)
+            {
+                Log.Warn("pbPair is null!");
+                return;
+            }
+
             try
             {
                 ResetPlayerMS();
@@ -56,7 +79,7 @@ namespace HaE_PBLimiter
 
 
                         long pbOwner = tracker.PB.OwnerId;
-                        string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner).DisplayName;
+                        string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner)?.DisplayName;
                         double overriddenMax = ProfilerConfig.maxTickTime;
 
                         if (ownerName == null)
