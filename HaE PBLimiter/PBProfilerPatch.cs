@@ -62,8 +62,8 @@ namespace HaE_PBLimiter
 
         private static void PrefixRecompilePb(MyProgrammableBlock __instance)
         {
-            if (PBData.pbPair.ContainsKey(__instance.EntityId))
-                PBData.pbPair[__instance.EntityId].SetRecompiled();
+            if (PBData.pbPair.TryGetValue(__instance.EntityId, out var pbData))
+                pbData.SetRecompiled();
         }
     }
 }

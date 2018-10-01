@@ -43,7 +43,7 @@ namespace HaE_PBLimiter
 
         public static void IteratePBs(object src)
         {
-            //These shouldnt ever be null but appearently one of them could be null?!
+            //These shouldnt ever be null when the server is running but appearently one of them could be null?!
 
             if (MySession.Static == null)
             {
