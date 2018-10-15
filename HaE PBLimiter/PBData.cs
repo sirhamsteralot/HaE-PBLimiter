@@ -47,7 +47,7 @@ namespace HaE_PBLimiter
 
             if (MySession.Static == null)
             {
-                Log.Warn("MySession.Static is null!");
+                //Log.Warn("MySession.Static is null!");
                 return;
             }
             if (MySession.Static.Players == null)
