@@ -67,7 +67,7 @@ namespace HaE_PBLimiter
 
             var ms = dt * 1000;
 
-            averageMs = 0.99 * averageMs + 0.01 * ms;
+            averageMs = (1 - ProfilerConfig.tickSignificance) * averageMs + ProfilerConfig.tickSignificance * ms;
         }
 
         public void CheckMax(double maximumAverageMS)

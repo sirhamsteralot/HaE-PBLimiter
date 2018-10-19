@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Torch;
 using System.Xml.Serialization;
+using VRageMath;
 
 namespace HaE_PBLimiter
 {
@@ -19,6 +20,10 @@ namespace HaE_PBLimiter
         private static double _maxTickTime = 0.5;
         public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
         public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value; } }
+
+        private static double _tickSignificance = 0.01;
+        public static double tickSignificance { get { return _tickSignificance; } set { _tickSignificance = MyMath.Clamp((float)value, 0, 1); PBLimiter_Logic.Save(); } }
+        public double SerializeWrapSignificance { get { return _tickSignificance; } set { _tickSignificance = value; } }
 
         private static bool _perPlayer = false;
         public static bool perPlayer { get { return _perPlayer; } set { _perPlayer = value; PBLimiter_Logic.Save(); } }

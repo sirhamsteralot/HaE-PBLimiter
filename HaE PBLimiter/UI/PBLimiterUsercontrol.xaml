@@ -31,10 +31,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            
+            
             <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="MaxPB MS" Margin="10"/>
             <TextBox Name="MaxMS" Grid.Column="1" Margin="10" Text="{Binding maxTickTime}"/>
+            
+            <TextBlock Grid.Column="0" Grid.Row ="2" VerticalAlignment="Center" Text="TickSignificance" Margin="10"/>
+            <TextBox Name="TickSignificance" Grid.Column="1" Grid.Row ="2" Margin="10" Text="{Binding tickSignificance}"/>
+            
+            
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="10" Text="Per Player" />
             <CheckBox Grid.Column="3" VerticalAlignment="Center" IsChecked="{Binding perPlayer}" RenderTransformOrigin="-1.688,0.467" />
 
