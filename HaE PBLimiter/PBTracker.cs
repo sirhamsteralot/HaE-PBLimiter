@@ -47,6 +47,7 @@ namespace HaE_PBLimiter
         private int StartupTicks => ProfilerConfig.startupTicks;
         public MyProgrammableBlock PB;
         public double averageMs;
+        public DateTime lastExecutionTime;
         
         private int startTick;
        
@@ -58,6 +59,8 @@ namespace HaE_PBLimiter
 
         public void UpdatePerformance(double dt)
         {
+            lastExecutionTime = DateTime.Now;
+
             if (startTick < StartupTicks)
             {
                 startTick++;

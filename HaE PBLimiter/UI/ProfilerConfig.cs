@@ -21,6 +21,10 @@ namespace HaE_PBLimiter
         public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
         public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value; } }
 
+        private static double _timeOutTime = 0.5;
+        public static double timeOutTime { get { return _timeOutTime; } set { _timeOutTime = value; PBLimiter_Logic.Save(); } }
+        public double SerializeWrapTimeOutTime { get { return _timeOutTime; } set { _timeOutTime = value; } }
+
         private static double _tickSignificance = 0.01;
         public static double tickSignificance { get { return _tickSignificance; } set { _tickSignificance = MyMath.Clamp((float)value, 0, 1); PBLimiter_Logic.Save(); } }
         public double SerializeWrapSignificance { get { return _tickSignificance; } set { _tickSignificance = value; } }

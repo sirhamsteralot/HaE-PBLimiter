@@ -77,6 +77,12 @@ namespace HaE_PBLimiter
                         if (tracker.PB == null)
                             continue;
 
+                        if (!tracker.PB.Enabled || !tracker.PB.IsFunctional)
+                            continue;
+
+                        if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds < ProfilerConfig.timeOutTime)
+                            continue;
+
 
                         long pbOwner = tracker.PB.OwnerId;
                         string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner)?.DisplayName;
