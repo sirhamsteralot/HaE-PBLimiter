@@ -80,7 +80,7 @@ namespace HaE_PBLimiter
                         if (!tracker.PB.Enabled || !tracker.PB.IsFunctional)
                             continue;
 
-                        if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds < ProfilerConfig.timeOutTime)
+                        if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds > ProfilerConfig.timeOutTime)
                             continue;
 
 
