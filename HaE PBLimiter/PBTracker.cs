@@ -104,7 +104,7 @@ namespace HaE_PBLimiter
                 return;
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
-            damage += (float)(damage * violations++ * ProfilerConfig.maxViolationsMult);
+            damage += (float)(damage * (violations++ * ProfilerConfig.violationsMult));
             TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
 
             averageMs = 0;

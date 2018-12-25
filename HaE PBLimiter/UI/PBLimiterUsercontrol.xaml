@@ -51,7 +51,7 @@
             <TextBox Grid.Column="1" Grid.Row="1" Name="StartRuns" Margin="10" ToolTip="this gives the jitter time to jit without breaking the pb" Text="{Binding startupTicks}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="4"  VerticalAlignment="Center" Text="Violation multiplier" Margin="10"/>
-            <TextBox Grid.Column="1" Grid.Row="4" Name="ViolationMult" Margin="10" ToolTip="adds damage * the violations * the multiplier" Text="{Binding maxViolationsMult}"/>
+            <TextBox Grid.Column="1" Grid.Row="4" Name="ViolationMult" Margin="10" ToolTip="adds damage * the violations * the multiplier" Text="{Binding violationsMult}"/>
 
             <TextBlock Grid.Column="0" Grid.Row ="3" VerticalAlignment="Center" Text="TimeOutTime" Margin="10"/>
             <TextBox Name="TimeOutTime" Grid.Column="1" Grid.Row ="3" Margin="10" ToolTip="amount of time af ther the pb has last been run before the profiler stops counting it in the total per player (for PerPlayer checked)" Text="{Binding timeOutTime}"/>
