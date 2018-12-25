@@ -50,6 +50,7 @@ namespace HaE_PBLimiter
         public DateTime lastExecutionTime;
         
         private int startTick;
+        private int violations;
        
 
         public PBTracker(MyProgrammableBlock PB, double average)
@@ -103,6 +104,7 @@ namespace HaE_PBLimiter
                 return;
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
+            damage += (float)(damage * violations++ * ProfilerConfig.maxViolationsMult);
             TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
 
             averageMs = 0;

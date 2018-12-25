@@ -38,7 +38,6 @@ namespace HaE_PBLimiter
             DataContext = plugin.Config;
 
             timer = new Timer(Refresh, this, 0, 1000);
-
         }
 
         private void Refresh(object state)
