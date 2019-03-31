@@ -13,7 +13,7 @@ using VRage;
 using VRage.Entities;
 using NLog;
 using System.Threading;
-
+using Sandbox.Game.Multiplayer;
 
 namespace HaE_PBLimiter
 {
@@ -83,23 +83,22 @@ namespace HaE_PBLimiter
                         if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds > ProfilerConfig.timeOutTime)
                             continue;
 
+                        
+                        MyPlayer.PlayerId id;
+                        Sync.Players.TryGetPlayerId(tracker.PB.OwnerId, out id);
+                        ulong pbOwner = id.SteamId;
 
-                        long pbOwner = tracker.PB.OwnerId;
-                        string ownerName = MySession.Static.Players.TryGetIdentity(pbOwner)?.DisplayName;
                         double overriddenMax = ProfilerConfig.maxTickTime;
 
-                        if (ownerName == null)
-                            ownerName = "";
-
-                        if (PBPlayerTracker.playerOverrideDict.ContainsKey(ownerName))
+                        if (PBPlayerTracker.playerOverrideDict.ContainsKey(pbOwner))
                         {
-                            CheckPlayerMax(ownerName, ref overriddenMax);
+                            CheckPlayerMax(pbOwner, ref overriddenMax);
                         }
 
 
                         if (ProfilerConfig.perPlayer)
                         {
-                            CheckPerPlayer(tracker, pbOwner, overriddenMax);
+                            CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax);
                             continue;
                         }
 
@@ -123,9 +122,9 @@ namespace HaE_PBLimiter
             tracker.CheckMax(pbOwner, overriddenMax);
         }
 
-        private static void CheckPlayerMax(string ownerName, ref double overriddenMax)
+        private static void CheckPlayerMax(ulong owner, ref double overriddenMax)
         {
-            var player = PBPlayerTracker.playerOverrideDict[ownerName];
+            var player = PBPlayerTracker.playerOverrideDict[owner];
 
             if (player != null && player.OverrideEnabled)
                 overriddenMax = player.PersonalMaxMs;

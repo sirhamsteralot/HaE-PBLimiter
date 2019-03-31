@@ -13,22 +13,27 @@ namespace HaE_PBLimiter
         private string _name;
         public string Name { get { return _name; } set { _name = value;} }
 
+        private ulong _steamId;
+        public ulong SteamId { get => _steamId; set => _steamId = value; }
+
         private double _personalMaxMs;
         public double PersonalMaxMs { get { return _personalMaxMs; } set { _personalMaxMs = value;} }
 
         private bool _overrideEnabled;
         public bool OverrideEnabled { get { return _overrideEnabled; } set { _overrideEnabled = value;} }
 
+
         [XmlIgnore()]
         public double ms;
 
         public Player() { }
 
-        public Player(string name, double personalMaxMs, bool overrideEnabled)
+        public Player(string name, ulong steamId, double personalMaxMs, bool overrideEnabled)
         {
             _name = name;
             _personalMaxMs = personalMaxMs;
             _overrideEnabled = overrideEnabled;
+            _steamId = steamId;
         }
 
         public void Reset()

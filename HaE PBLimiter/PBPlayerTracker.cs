@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sandbox.Game.Multiplayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace HaE_PBLimiter
     {
         public static Dictionary<long, Player> players = new Dictionary<long, Player>();
 
-        public static Dictionary<string, Player> playerOverrideDict = new Dictionary<string, Player>();
+        public static Dictionary<ulong, Player> playerOverrideDict = new Dictionary<ulong, Player>();
 
         public static void OnListChanged()
         {
@@ -18,11 +19,23 @@ namespace HaE_PBLimiter
 
             foreach (var entry in ProfilerConfig.PlayerOverrides)
             {
-                var player = new Player(entry.Name, entry.PersonalMaxMs, entry.OverrideEnabled);
-                if (player.Name == null)
-                    return;
+                var player = new Player(entry.Name, entry.SteamId, entry.PersonalMaxMs, entry.OverrideEnabled);
 
-                playerOverrideDict.Add(player.Name, player);
+                if (player.SteamId == 0)
+                {
+                    if (player.Name == null && player.SteamId == 0)
+                    {
+                        return;
+                    }
+                    else if (!string.IsNullOrEmpty(player.Name))
+                    {
+                        player.SteamId = Sync.Players.GetPlayerByName(player.Name).Id.SteamId;
+                    }
+                }
+
+
+
+                playerOverrideDict.Add(player.SteamId, player);
             }
         }
     }
