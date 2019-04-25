@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Sandbox.Game.Entities.Blocks;
 using Sandbox.Game.World;
+using VRage;
 
 namespace HaE_PBLimiter
 {
@@ -22,6 +24,8 @@ namespace HaE_PBLimiter
         private bool _overrideEnabled;
         public bool OverrideEnabled { get { return _overrideEnabled; } set { _overrideEnabled = value;} }
 
+        private Dictionary<MyProgrammableBlock, double> ownedPbs;
+
 
         [XmlIgnore()]
         public double ms;
@@ -34,6 +38,27 @@ namespace HaE_PBLimiter
             _personalMaxMs = personalMaxMs;
             _overrideEnabled = overrideEnabled;
             _steamId = steamId;
+        }
+
+        public void UpdatePB(MyProgrammableBlock pb, double runtime)
+        {
+            if (ownedPbs == null)
+                ownedPbs = new Dictionary<MyProgrammableBlock, double>();
+
+            ownedPbs[pb] = runtime;
+        }
+
+        public long GetSlowestID()
+        {
+            MyProgrammableBlock slowest = null;
+            double slowestRuntime = 0;
+            foreach (var pair in ownedPbs)
+            {
+                if (pair.Value > slowestRuntime)
+                    slowest = pair.Key;
+            }
+
+            return slowest?.EntityId ?? 0;
         }
 
         public void Reset()

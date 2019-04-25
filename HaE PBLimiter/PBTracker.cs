@@ -82,14 +82,17 @@ namespace HaE_PBLimiter
             }
         }
 
-        public void CheckMax(long owner, double maximumAverageMS)
+        public bool CheckMax(long owner, double maximumAverageMS)
         {
             PBPlayerTracker.players[owner].ms += averageMs;
+            PBPlayerTracker.players[owner].UpdatePB(PB, maximumAverageMS);
 
             if (PBPlayerTracker.players[owner].ms > maximumAverageMS)
             {
-                DamagePB();
+                return false;
             }
+
+            return true;
         }
 
         public void SetRecompiled()
@@ -98,7 +101,7 @@ namespace HaE_PBLimiter
             startTick = 0;
         }
 
-        private void DamagePB()
+        public void DamagePB()
         {
             if (PB != null && !PB.IsFunctional)
                 return;
@@ -107,6 +110,12 @@ namespace HaE_PBLimiter
             damage += (float)(damage * (violations++ * ProfilerConfig.violationsMult));
             TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
 
+            Player owner;
+            if (PBPlayerTracker.players.TryGetValue(PB.OwnerId, out owner))
+            {
+                owner.ms -= averageMs;
+            }
+            
             averageMs = 0;
             startTick = 0;
             ulong PBOwnerID = MySession.Static.Players.TryGetSteamId(PB.OwnerId);

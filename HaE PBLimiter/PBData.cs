@@ -98,7 +98,10 @@ namespace HaE_PBLimiter
 
                         if (ProfilerConfig.perPlayer)
                         {
-                            CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax);
+                            if (!CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax))
+                            {
+                                DisablePbsTill(tracker.PB.OwnerId, overriddenMax);
+                            }
                             continue;
                         }
 
@@ -112,14 +115,29 @@ namespace HaE_PBLimiter
             }
         }
 
-        private static void CheckPerPlayer(PBTracker tracker, long pbOwner, double overriddenMax)
+        private static void DisablePbsTill(long pbOwner, double maxRuntime)
+        {
+            Player owner;
+            if (PBPlayerTracker.players.TryGetValue(pbOwner, out owner))
+            {
+                var id = owner.GetSlowestID();
+
+                foreach(var tracker in pbPair.Values)
+                {
+                    if (id == tracker.PB.EntityId)
+                        tracker.DamagePB();
+                }
+            }
+        }
+
+        private static bool CheckPerPlayer(PBTracker tracker, long pbOwner, double overriddenMax)
         {
             if (!PBPlayerTracker.players.ContainsKey(pbOwner))
             {
                 PBPlayerTracker.players.Add(pbOwner, new Player());
             }
 
-            tracker.CheckMax(pbOwner, overriddenMax);
+            return tracker.CheckMax(pbOwner, overriddenMax);
         }
 
         private static void CheckPlayerMax(ulong owner, ref double overriddenMax)
