@@ -40,5 +40,11 @@ namespace HaE_PBLimiter
         private static ObservableCollection<Player> _playerOverrides = new ObservableCollection<Player>();
         public static ObservableCollection<Player> PlayerOverrides => _playerOverrides;
         public ObservableCollection<Player> SerializeWrapPlayerOverrides { get => _playerOverrides; set { _playerOverrides = value; } }
+
+
+        private static bool _takeIngameMeasurement = true;
+        public static bool takeIngameMeasurement { get => _takeIngameMeasurement; set => _takeIngameMeasurement = value; }
+        public bool TakeIngameMeasurement { get => _takeIngameMeasurement; set => _takeIngameMeasurement = value; }
+
     }
 }

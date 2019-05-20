@@ -50,12 +50,23 @@ namespace HaE_PBLimiter
         // ReSharper disable once SuggestBaseTypeForParameter
         private static void PrefixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
+            if (ProfilerConfig.takeIngameMeasurement)
+                return;
+
             __localTimingStart = Stopwatch.GetTimestamp();
         }
 
+        static FieldInfo runtimeField = typeof(MyProgrammableBlock).GetField("m_runtime", BindingFlags.Instance | BindingFlags.NonPublic);
+        static PropertyInfo lastruntimeMS = typeof(MyProgrammableBlock)
+            .GetNestedType("RuntimeInfo", BindingFlags.NonPublic)
+            .GetProperty("LastRunTimeMs", BindingFlags.Public | BindingFlags.Instance);
         private static void SuffixProfilePb(MyProgrammableBlock __instance, ref long __localTimingStart)
         {
-            var dtInSeconds = (Stopwatch.GetTimestamp() - __localTimingStart) / (double)Stopwatch.Frequency;
+            double dtInSeconds;
+            if (!ProfilerConfig.takeIngameMeasurement)
+                dtInSeconds = (Stopwatch.GetTimestamp() - __localTimingStart) / (double)Stopwatch.Frequency;
+            else
+                dtInSeconds = (double)(lastruntimeMS.GetValue(runtimeField.GetValue(__instance)))/1000.0;
 
             PBData.AddOrUpdatePair(__instance, dtInSeconds);
         }
