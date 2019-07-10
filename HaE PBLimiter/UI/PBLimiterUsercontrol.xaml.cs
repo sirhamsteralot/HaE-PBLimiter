@@ -44,8 +44,11 @@ namespace HaE_PBLimiter
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                DataGrid1.ItemsSource = null;
-                DataGrid1.ItemsSource = PBData.pbPair.Values;
+                lock(PBData.pbPair)
+                {
+                    DataGrid1.ItemsSource = null;
+                    DataGrid1.ItemsSource = PBData.pbPair.Values;
+                }
             }));
 
         }
