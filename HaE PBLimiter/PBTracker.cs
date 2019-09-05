@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System;
 using Sandbox;
 using Sandbox.Game;
@@ -101,6 +102,10 @@ namespace HaE_PBLimiter
             startTick = 0;
         }
 
+        static FieldInfo needsInstansiationField = typeof(MyProgrammableBlock).GetField("m_needsInstantiation", BindingFlags.NonPublic | BindingFlags.Instance);
+        static MethodInfo Terminate = typeof(MyProgrammableBlock).GetMethod("OnProgramTermination", BindingFlags.NonPublic | BindingFlags.Instance);
+
+
         public void DamagePB()
         {
             if (PB != null && !PB.IsFunctional)
@@ -108,7 +113,7 @@ namespace HaE_PBLimiter
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
             damage += (float)(damage * (violations++ * ProfilerConfig.violationsMult));
-            TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; });
+            TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; needsInstansiationField.SetValue(PB, false); Terminate.Invoke(PB,new object[] { MyProgrammableBlock.ScriptTerminationReason.InstructionOverflow }); });
 
             Player owner;
             if (PBPlayerTracker.players.TryGetValue(PB.OwnerId, out owner))
