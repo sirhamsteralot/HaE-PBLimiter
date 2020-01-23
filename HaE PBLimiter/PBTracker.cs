@@ -113,7 +113,19 @@ namespace HaE_PBLimiter
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
             damage += (float)(damage * (violations++ * ProfilerConfig.violationsMult));
-            TorchBase.Instance.Invoke(() => { PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0); PB.Enabled = false; needsInstansiationField.SetValue(PB, false); Terminate.Invoke(PB,new object[] { MyProgrammableBlock.ScriptTerminationReason.InstructionOverflow }); });
+            TorchBase.Instance.Invoke(() => 
+            {
+                try {
+                    PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0);
+                    PB.Enabled = false;
+                    needsInstansiationField.SetValue(PB, false);
+                    Terminate.Invoke(PB, new object[] 
+                    {
+                        MyProgrammableBlock.ScriptTerminationReason.InstructionOverflow
+                    });
+                } catch (NullReferenceException)
+                { }
+            });
 
             Player owner;
             if (PBPlayerTracker.players.TryGetValue(PB.OwnerId, out owner))
