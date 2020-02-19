@@ -36,7 +36,7 @@ namespace HaE_PBLimiter
             {
                 if (control == null)
                 {
-                    Log.Warn("The Itemscontrol is NULL!");
+                    //Log.Warn("The Itemscontrol is NULL!");
                     return;
                 }
 
