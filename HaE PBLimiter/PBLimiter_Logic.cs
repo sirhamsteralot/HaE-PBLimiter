@@ -36,7 +36,16 @@ namespace HaE_PBLimiter
 
 
         private PBLimiterUsercontrol _control;
-        public UserControl GetControl() => _control ?? (_control = new PBLimiterUsercontrol(this));
+        public UserControl GetControl()
+        {
+            if (_control == null)
+            {
+                _control = new PBLimiterUsercontrol(this);
+                PBData.control = _control;
+            }
+
+            return _control;
+        }
 
         private static Persistent<ProfilerConfig> _config;
         public ProfilerConfig Config => _config?.Data;

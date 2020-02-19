@@ -23,7 +23,7 @@ namespace HaE_PBLimiter
 
         private static Timer timer = new Timer(IteratePBs, null, 0, 1000);
 
-
+        public static PBLimiterUsercontrol control;
         public static Dictionary<long, PBTracker> pbPair = new Dictionary<long, PBTracker>();
 
         public static void AddOrUpdatePair(MyProgrammableBlock entity, double runtime)
@@ -34,10 +34,19 @@ namespace HaE_PBLimiter
             }
             else
             {
-                lock (pbPair)
+                if (control == null)
                 {
-                    pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+                    Log.Warn("The Itemscontrol is NULL!");
+                    return;
                 }
+
+                control.Dispatcher.Invoke(() =>
+                {
+                    lock (pbPair)
+                    {
+                        pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+                    }
+                });
             }
         }
 
