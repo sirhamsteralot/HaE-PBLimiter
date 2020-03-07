@@ -151,6 +151,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\PlayerCommands.cs" />
     <Compile Include="PBData.cs" />
     <Compile Include="PBLimiter_Logic.cs" />
     <Compile Include="PBPlayerTracker.cs" />
