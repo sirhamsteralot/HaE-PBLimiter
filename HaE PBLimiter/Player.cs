@@ -54,6 +54,9 @@ namespace HaE_PBLimiter
             double slowestRuntime = 0;
             foreach (var pair in ownedPbs)
             {
+                if (!pair.Key.IsFunctional || !pair.Key.Enabled)
+                    continue;
+
                 if (pair.Value > slowestRuntime)
                     slowest = pair.Key;
             }
