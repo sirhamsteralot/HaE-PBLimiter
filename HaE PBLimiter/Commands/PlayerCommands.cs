@@ -25,7 +25,7 @@ namespace HaE_PBLimiter.Commands
 
             if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(player.IdentityId))
             {
-                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId]?.ms}/{ProfilerConfig.maxTickTime}");
+                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {Math.Round(PBPlayerTracker.players[player.IdentityId].ms, 3)}/{ProfilerConfig.maxTickTime}");
             }
 
             foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
