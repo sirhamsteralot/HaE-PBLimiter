@@ -23,10 +23,14 @@ namespace HaE_PBLimiter.Commands
 
             var sb = new StringBuilder();
 
-            foreach (var pb in PBData.pbPair.Values)
+            if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(player.IdentityId))
             {
-                if (pb.PB.OwnerId == player.IdentityId)
-                    sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
+                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId]?.ms}/{ProfilerConfig.maxTickTime}");
+            }
+
+            foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
+            {
+                sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
             }
 
             Context.Respond(sb.ToString());
