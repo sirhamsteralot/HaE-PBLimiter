@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Torch.Commands;
 using Torch.Commands.Permissions;
+using Torch.Mod;
+using Torch.Mod.Messages;
 using VRage.Game.ModAPI;
 
 namespace HaE_PBLimiter.Commands
@@ -25,7 +27,7 @@ namespace HaE_PBLimiter.Commands
 
             if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(player.IdentityId))
             {
-                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {Math.Round(PBPlayerTracker.players[player.IdentityId].ms, 3)}/{ProfilerConfig.maxTickTime}");
+                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId].ms:F3}/{ProfilerConfig.maxTickTime}\n");
             }
 
             foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
@@ -33,7 +35,7 @@ namespace HaE_PBLimiter.Commands
                 sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
             }
 
-            Context.Respond(sb.ToString());
+            ModCommunication.SendMessageTo(new DialogMessage($"PBLimiter Status", null, sb.ToString()), Context.Player.SteamUserId);
         }
     }
 }
