@@ -1,4 +1,5 @@
 ﻿using Sandbox.Game.EntityComponents;
+using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI.Ingame;
@@ -118,6 +119,10 @@ namespace HaE_PBLimiter
                 try {
                     PB.SlimBlock.DoDamage(damage, MyDamageType.Fire, true, null, 0);
                     PB.Enabled = false;
+                    PB.RunSandboxedProgramAction(delegate (IMyGridProgram program)
+                    {
+                        program.Save();
+                    }, out string response);
                     needsInstansiationField.SetValue(PB, false);
                     Terminate.Invoke(PB, new object[] 
                     {
