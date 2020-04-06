@@ -104,6 +104,7 @@ namespace HaE_PBLimiter
                             CheckPlayerMax(pbOwner, ref overriddenMax);
                         }
 
+                        tracker.UpdatePerformance();
 
                         if (ProfilerConfig.perPlayer)
                         {
