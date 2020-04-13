@@ -37,6 +37,10 @@ namespace HaE_PBLimiter
         public static bool perPlayer { get { return _perPlayer; } set { _perPlayer = value; PBLimiter_Logic.Save(); } }
         public bool SerializeWrapPerPlayer { get { return _perPlayer; } set { _perPlayer = value; } }
 
+        private static bool _allowCleanup = false;
+        public static bool allowCleanup { get { return _allowCleanup; } set { _allowCleanup = value; PBLimiter_Logic.Save(); } }
+        public bool SerializeWrapAllowCleanup { get { return _allowCleanup; } set { _allowCleanup = value; } }
+
         private static ObservableCollection<Player> _playerOverrides = new ObservableCollection<Player>();
         public static ObservableCollection<Player> PlayerOverrides => _playerOverrides;
         public ObservableCollection<Player> SerializeWrapPlayerOverrides { get => _playerOverrides; set { _playerOverrides = value; } }
