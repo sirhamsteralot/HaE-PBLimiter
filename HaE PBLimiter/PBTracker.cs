@@ -66,13 +66,30 @@ namespace HaE_PBLimiter
             if (startTick < StartupTicks)
             {
                 startTick++;
+                LastPerformanceUpdateFrame = MySession.Static.GameplayFrameCounter;
                 return;
             }
  
 
             var ms = dt * 1000;
 
-            averageMs = (1 - ProfilerConfig.tickSignificance) * averageMs + ProfilerConfig.tickSignificance * ms;
+            UpdatePerformance();
+
+            averageMs += ProfilerConfig.tickSignificance * ms;
+        }
+
+        int LastPerformanceUpdateFrame = MySession.Static.GameplayFrameCounter;
+
+        public void UpdatePerformance() {
+            int frame = MySession.Static.GameplayFrameCounter;
+
+            if (frame == LastPerformanceUpdateFrame) {
+                return;
+            }
+
+            averageMs = averageMs * Math.Pow(1 - ProfilerConfig.tickSignificance, frame - LastPerformanceUpdateFrame);
+            
+            LastPerformanceUpdateFrame = frame;
         }
 
         public void CheckMax(double maximumAverageMS)
