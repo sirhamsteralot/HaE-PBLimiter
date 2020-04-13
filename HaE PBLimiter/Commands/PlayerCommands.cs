@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Torch.Commands;
 using Torch.Commands.Permissions;
+using Torch.Mod;
+using Torch.Mod.Messages;
 using VRage.Game.ModAPI;
 
 namespace HaE_PBLimiter.Commands
@@ -23,13 +25,17 @@ namespace HaE_PBLimiter.Commands
 
             var sb = new StringBuilder();
 
-            foreach (var pb in PBData.pbPair.Values)
+            if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(player.IdentityId))
             {
-                if (pb.PB.OwnerId == player.IdentityId)
-                    sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
+                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId].ms:F3}/{ProfilerConfig.maxTickTime}\n");
             }
 
-            Context.Respond(sb.ToString());
+            foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
+            {
+                sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
+            }
+
+            ModCommunication.SendMessageTo(new DialogMessage($"PBLimiter Status", null, sb.ToString()), Context.Player.SteamUserId);
         }
     }
 }
