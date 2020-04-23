@@ -37,7 +37,7 @@ namespace HaE_PBLimiter
         public static bool perPlayer { get { return _perPlayer; } set { _perPlayer = value; PBLimiter_Logic.Save(); } }
         public bool SerializeWrapPerPlayer { get { return _perPlayer; } set { _perPlayer = value; } }
 
-        private static bool _allowCleanup = false;
+        private static bool _allowCleanup = true;
         public static bool allowCleanup { get { return _allowCleanup; } set { _allowCleanup = value; PBLimiter_Logic.Save(); } }
         public bool SerializeWrapAllowCleanup { get { return _allowCleanup; } set { _allowCleanup = value; } }
 
