@@ -27,7 +27,11 @@ namespace HaE_PBLimiter.Commands
 
             if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(player.IdentityId))
             {
-                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId].ms:F3}/{ProfilerConfig.maxTickTime}\n");
+                double playerMax = ProfilerConfig.maxTickTime;
+                if (PBPlayerTracker.players[player.IdentityId].OverrideEnabled)
+                    playerMax = PBPlayerTracker.players[player.IdentityId].PersonalMaxMs;
+
+                sb.AppendLine($"Player \"{player.DisplayName}\" Ms: {PBPlayerTracker.players[player.IdentityId].ms:F3}/{playerMax}\n");
             }
 
             foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
