@@ -42,7 +42,7 @@ namespace HaE_PBLimiter
 
         public string PBID { get { return $"{PB.CubeGrid.DisplayName}-{PB.CustomName}"; } }        
         public bool IsEnabled => PB.Enabled;
-        public double AverageMS => averageMs;
+        public double AverageMS => Math.Round(averageMs, 5);
         public string Owner => MySession.Static.Players.TryGetIdentity(PB.OwnerId).DisplayName;
 
 
