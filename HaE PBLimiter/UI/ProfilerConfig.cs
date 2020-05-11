@@ -21,6 +21,10 @@ namespace HaE_PBLimiter
         public static double violationsMult { get { return _violationsMult; } set { _violationsMult = value; PBLimiter_Logic.Save(); } }
         public double SerializeWrapViolationsMult { get { return _violationsMult; } set { _violationsMult = value; } }
 
+        private static int _maxViolations = 1;
+        public static int maxViolations { get { return _maxViolations; } set { _maxViolations = value; PBLimiter_Logic.Save(); } }
+        public int SerializeWrapMaxViolations { get { return _maxViolations; } set { _maxViolations = value; } }
+
         private static double _maxTickTime = 0.5;
         public static double maxTickTime { get { return _maxTickTime; } set { _maxTickTime = value; PBLimiter_Logic.Save(); } }
         public double SerializeWrapTime { get { return _maxTickTime; } set { _maxTickTime = value; } }

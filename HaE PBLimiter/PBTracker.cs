@@ -97,7 +97,12 @@ namespace HaE_PBLimiter
         {
             if (averageMs > maximumAverageMS)
             {
-                DamagePB();
+                violations++;
+
+                if (violations > ProfilerConfig.maxViolations)
+                {
+                    DamagePB();
+                }
             }
         }
 
@@ -130,7 +135,7 @@ namespace HaE_PBLimiter
                 return;
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
-            damage += (float)(damage * (violations++ * ProfilerConfig.violationsMult));
+            damage += (float)(damage * (violations * ProfilerConfig.violationsMult));
             TorchBase.Instance.Invoke(() => 
             {
                 try {

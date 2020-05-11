@@ -30,6 +30,9 @@ namespace HaE_PBLimiter
         [XmlIgnore()]
         public double ms;
 
+        [XmlIgnore()]
+        public int violations;
+
         public Player() { }
 
         public Player(string name, ulong steamId, double personalMaxMs, bool overrideEnabled)

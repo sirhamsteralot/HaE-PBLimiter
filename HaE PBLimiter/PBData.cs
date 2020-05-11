@@ -110,7 +110,10 @@ namespace HaE_PBLimiter
                         {
                             if (!CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax))
                             {
-                                DisablePbsTill(tracker.PB.OwnerId, overriddenMax);
+                                PBPlayerTracker.players[tracker.PB.OwnerId].violations++;
+
+                                if (PBPlayerTracker.players[tracker.PB.OwnerId].violations > ProfilerConfig.maxViolations)
+                                    DisablePbsTill(tracker.PB.OwnerId, overriddenMax);
                             }
                             continue;
                         }
