@@ -27,6 +27,8 @@ namespace HaE_PBLimiter
         private PBLimiter_Logic Plugin { get; }
         private Timer timer;
 
+        private List<PBTracker> values = new List<PBTracker>();
+
         public PBLimiterUsercontrol()
         {
             InitializeComponent();
@@ -46,8 +48,15 @@ namespace HaE_PBLimiter
             {
                 lock(PBData.pbPair)
                 {
+                    values.Clear();
                     DataGrid1.ItemsSource = null;
-                    DataGrid1.ItemsSource = PBData.pbPair.Values;
+
+                    foreach (var value in PBData.pbPair.Values)
+                    {
+                        values.Add(value);
+                    }
+
+                    DataGrid1.ItemsSource = values;
                 }
             }));
 

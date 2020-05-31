@@ -61,7 +61,7 @@
             <TextBox Grid.Column="1" Grid.Row="5" Name="MaxViolations" Margin="10" ToolTip="the amount of times a pb can violate the limit before being killed" Text="{Binding maxViolations}"/>
 
             <TextBlock Grid.Column="0" Grid.Row ="3" VerticalAlignment="Center" Text="TimeOutTime" Margin="10"/>
-            <TextBox Name="TimeOutTime" Grid.Column="1" Grid.Row ="3" Margin="10" ToolTip="amount of time af ther the pb has last been run before the profiler stops counting it in the total per player (for PerPlayer checked)" Text="{Binding timeOutTime}"/>
+            <TextBox Name="TimeOutTime" Grid.Column="1" Grid.Row ="3" Margin="10" ToolTip="amount of time in seconds af ther the pb has last been run before the profiler stops counting it in the total per player (for PerPlayer checked)" Text="{Binding timeOutTime}"/>
 
             <Button Content="Exceptions" Grid.Column="2" HorizontalAlignment="Left" Margin="10,9,0,0" Grid.Row="1" VerticalAlignment="Top" Width="68" Click="Button_Click" Grid.ColumnSpan="2"/>
         </Grid>
