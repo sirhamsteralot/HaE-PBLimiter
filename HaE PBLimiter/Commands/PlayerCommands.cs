@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Sandbox.Game.Multiplayer;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Torch.Commands;
 using Torch.Commands.Permissions;
 using Torch.Mod;
@@ -35,6 +33,41 @@ namespace HaE_PBLimiter.Commands
             }
 
             foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == player.IdentityId).OrderByDescending(v => v.AverageMS))
+            {
+                sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
+            }
+
+            ModCommunication.SendMessageTo(new DialogMessage($"PBLimiter Status", null, sb.ToString()), Context.Player.SteamUserId);
+        }
+
+        [Command("investigate", "Lists pbs and their average runtimes owned a specific player")]
+        [Permission(MyPromoteLevel.Moderator)]
+        public void Investigate()
+        {
+            var player = Sync.Players.GetPlayerByName(Context.Args.First());
+
+            if (player == null)
+            {
+                Context?.Respond("Could Not Find Player! Check Capitals and special characters!");
+
+                return;
+            }
+
+            var playerIdentity = player.Identity;
+            var playerIdentityId = playerIdentity.IdentityId;
+            ulong playerId = Sync.Players.TryGetSteamId(playerIdentityId);
+            var sb = new StringBuilder();
+
+            if (ProfilerConfig.perPlayer && PBPlayerTracker.players.ContainsKey(playerIdentityId))
+            {
+                double playerMax = ProfilerConfig.maxTickTime;
+                if (PBPlayerTracker.players[playerIdentityId].OverrideEnabled)
+                    playerMax = PBPlayerTracker.players[playerIdentityId].PersonalMaxMs;
+
+                sb.AppendLine($"Player \"{Sync.Players.TryGetPlayer(playerIdentityId)?.DisplayName ?? ""}\" Ms: {PBPlayerTracker.players[playerIdentityId].ms:F3}/{playerMax}\n");
+            }
+
+            foreach (var pb in PBData.pbPair.Values.Where(v => v.PB.OwnerId == playerIdentityId).OrderByDescending(v => v.AverageMS))
             {
                 sb.AppendLine($"PB: \"{pb.PBID}\" Ms: {pb.AverageMS:F3}");
             }
