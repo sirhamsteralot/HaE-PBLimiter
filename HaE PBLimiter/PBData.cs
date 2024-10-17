@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Blocks;
-using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.World;
-using VRage;
-using VRage.Entities;
 using NLog;
 using System.Threading;
 using Sandbox.Game.Multiplayer;
@@ -36,7 +27,10 @@ namespace HaE_PBLimiter
             {
                 if (control == null)
                 {
-                    //Log.Warn("The Itemscontrol is NULL!");
+                    lock (pbPair)
+                    {
+                        pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+                    }
                     return;
                 }
 

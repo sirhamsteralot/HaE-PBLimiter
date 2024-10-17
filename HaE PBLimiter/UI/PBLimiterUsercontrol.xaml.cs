@@ -42,24 +42,28 @@ namespace HaE_PBLimiter
             timer = new Timer(Refresh, this, 0, 1000);
         }
 
-        private void Refresh(object state)
+        private async void Refresh(object state)
         {
-            Dispatcher.BeginInvoke(new Action(() =>
+
+            await Dispatcher.BeginInvoke(new Action(() =>
             {
-                lock(PBData.pbPair)
-                {
-                    values.Clear();
-                    DataGrid1.ItemsSource = null;
-
-                    foreach (var value in PBData.pbPair.Values)
-                    {
-                        values.Add(value);
-                    }
-
-                    DataGrid1.ItemsSource = values;
-                }
+                DataGrid1.ItemsSource = null;
             }));
 
+            lock (PBData.pbPair)
+            {
+                values.Clear();
+
+                foreach (var value in PBData.pbPair.Values)
+                {
+                    values.Add(value);
+                }
+            }
+
+            await Dispatcher.BeginInvoke(new Action(() =>
+            {
+                DataGrid1.ItemsSource = values;
+            }));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
