@@ -1,3 +1,14 @@
+# Path to the solution file
+$solutionPath = "HaE PBLimiter.sln"
+
+# Build the solution using MSBuild (make sure MSBuild is in your PATH or specify the full path to MSBuild.exe)
+$buildResult = & "MSBuild.exe" $solutionPath /p:Configuration=Release /p:Platform="x64"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Build failed! Please check the build errors." -ForegroundColor Red
+    exit 1
+}
+
+
 # Fetch the current git tag
 $gitTag = git describe --tags --abbrev=0
 if (-not $gitTag) {
@@ -46,6 +57,15 @@ if ((Test-Path $sourceDll) -and (Test-Path $sourcePdb)) {
 } else {
     Write-Host "One or both of the files do not exist." -ForegroundColor Red
 }
+
+# Zip the release folder
+$zipFilePath = "$releaseFolder/HaE PBLimiter.zip"
+if (Test-Path $zipFilePath) {
+    Remove-Item $zipFilePath
+}
+
+Compress-Archive -Path $releaseFolder/* -DestinationPath $zipFilePath
+Write-Host "Release folder zipped successfully as '$zipFilePath'!" -ForegroundColor Green
 
 # Confirm creation
 Write-Host "Release folder '$releaseFolder' and manifest.xml created successfully!" -ForegroundColor Green
