@@ -27,7 +27,10 @@ namespace HaE_PBLimiter
             {
                 if (control == null)
                 {
-                    //Log.Warn("The Itemscontrol is NULL!");
+                    lock (pbPair)
+                    {
+                        pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+                    }
                     return;
                 }
 
