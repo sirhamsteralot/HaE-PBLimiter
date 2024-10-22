@@ -7,6 +7,7 @@ using VRage.Game;
 using Torch;
 using Torch.API.Managers;
 using NLog;
+using VRageMath;
 
 namespace HaE_PBLimiter
 {
@@ -103,10 +104,14 @@ namespace HaE_PBLimiter
         static MethodInfo Terminate = typeof(MyProgrammableBlock).GetMethod("OnProgramTermination", BindingFlags.NonPublic | BindingFlags.Instance);
 
 
-        public void DamagePB()
+        public bool DamagePB()
         {
-            if (PB != null && !PB.IsFunctional)
-                return;
+            if (PB == null || !PB.IsFunctional)
+            {
+                SetRecompiled();
+                return false;
+            }
+
 
             float damage = PB.SlimBlock.BlockDefinition.MaxIntegrity - PB.SlimBlock.BlockDefinition.MaxIntegrity * PB.SlimBlock.BlockDefinition.CriticalIntegrityRatio;
             damage += (float)(damage * (violations * ProfilerConfig.violationsMult));
@@ -130,7 +135,9 @@ namespace HaE_PBLimiter
                         MyProgrammableBlock.ScriptTerminationReason.InstructionOverflow
                     });
                 } catch (NullReferenceException)
-                { }
+                { 
+
+                }
             });
 
             Player owner;
@@ -143,7 +150,12 @@ namespace HaE_PBLimiter
             startTick = 0;
             ulong PBOwnerID = MySession.Static.Players.TryGetSteamId(PB.OwnerId);
             
-            if(PBOwnerID != 0) { PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>().SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", MyFontEnum.Red, PBOwnerID); }
+            if (PBOwnerID != 0) {
+                var chatManager = PBLimiter_Logic.server?.CurrentSession.Managers.GetManager<IChatManagerServer>();
+                chatManager?.SendMessageAsOther("Server", $"Your PB {PBID} has overheated due to excessive usage!", Color.Red, PBOwnerID); 
+            }
+
+            return true;
         }
     }
 }
