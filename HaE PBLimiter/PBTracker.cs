@@ -29,6 +29,11 @@ namespace HaE_PBLimiter
         private int startTick;
         private int violations;
        
+        public PBTracker(PBTracker clone)
+        {
+            this.PB = clone.PB;
+            this.averageMs = clone.averageMs;
+        }
 
         public PBTracker(MyProgrammableBlock PB, double average)
         {
