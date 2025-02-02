@@ -33,6 +33,9 @@ namespace HaE_PBLimiter
         {
             this.PB = clone.PB;
             this.averageMs = clone.averageMs;
+            this.lastExecutionTime = clone.lastExecutionTime;
+            this.violations = clone.violations;
+            this.startTick = clone.startTick;
         }
 
         public PBTracker(MyProgrammableBlock PB, double average)
