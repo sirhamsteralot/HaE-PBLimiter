@@ -12,10 +12,12 @@ namespace HaE_PBLimiter
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        private static Timer timer = new Timer(IteratePBs, null, 0, 1000);
+        private static Timer timer = new Timer(IteratePBs, null, 0, 2500);
 
         public static PBLimiterUsercontrol control;
         public static Dictionary<long, PBTracker> pbPair = new Dictionary<long, PBTracker>();
+
+        public static event Action<PBTracker, long> OnUpdate;
 
         public static void AddOrUpdatePair(MyProgrammableBlock entity, double runtime)
         {
@@ -37,6 +39,8 @@ namespace HaE_PBLimiter
                 {
                     pbPair[entity.EntityId] = new PBTracker(entity, runtime);
                 });
+
+                OnUpdate?.Invoke(pbPair[entity.EntityId], entity.EntityId);
             }
         }
 

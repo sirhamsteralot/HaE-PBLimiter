@@ -27,11 +27,28 @@ namespace HaE_PBLimiter
         private PBLimiter_Logic Plugin { get; }
         private Timer timer;
 
-        private List<PBTracker> values = new List<PBTracker>();
+        private Dictionary<long, PBTracker>[] values = new Dictionary<long, PBTracker>[2];
+        private int resourceInUse = 0;
+
 
         public PBLimiterUsercontrol()
         {
+            values[0] = new Dictionary<long, PBTracker>();
+            values[1] = new Dictionary<long, PBTracker>();
             InitializeComponent();
+
+            PBData.OnUpdate += PBData_OnUpdate;
+        }
+
+        private void PBData_OnUpdate(PBTracker obj, long id)
+        {
+            Dispatcher.InvokeAsync(new Action(() =>
+            {
+                if (resourceInUse == 0)
+                    values[1][id] = obj;
+                else
+                    values[0][id] = obj;
+            }));
         }
 
         public PBLimiterUsercontrol(PBLimiter_Logic plugin) : this()
@@ -44,25 +61,16 @@ namespace HaE_PBLimiter
 
         private async void Refresh(object state)
         {
-
             await Dispatcher.BeginInvoke(new Action(() =>
             {
                 DataGrid1.ItemsSource = null;
-            }));
 
-            lock (PBData.pbPair)
-            {
-                values.Clear();
+                if (resourceInUse == 0)
+                    resourceInUse = 1;
+                else
+                    resourceInUse = 0;
 
-                foreach (var value in PBData.pbPair.Values)
-                {
-                    values.Add(value);
-                }
-            }
-
-            await Dispatcher.BeginInvoke(new Action(() =>
-            {
-                DataGrid1.ItemsSource = values;
+                DataGrid1.ItemsSource = values[resourceInUse].Values;
             }));
         }
 
