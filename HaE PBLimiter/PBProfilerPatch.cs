@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using NLog;
 using Sandbox.Game.Entities.Blocks;
 using Torch.Managers.PatchManager;
@@ -53,6 +56,8 @@ namespace HaE_PBLimiter
     [ReflectedLazy]
     internal static class PBProfilerPatch
     {
+        private const bool EnablePreJit = true;
+        
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         [ReflectedMethodInfo(typeof(MyProgrammableBlock), "ExecuteCode")]
@@ -60,6 +65,9 @@ namespace HaE_PBLimiter
 
         [ReflectedMethodInfo(typeof(MyProgrammableBlock), "Compile")]
         private static readonly MethodInfo _programableRecompile;
+
+        [ReflectedMethodInfo(typeof(MyProgrammableBlock), "CreateInstance")]
+        private static readonly MethodInfo _programmableCreateInstance;
         
         public static void Patch(PatchContext ctx)
         {
@@ -69,6 +77,11 @@ namespace HaE_PBLimiter
             ctx.GetPattern(_programmableRunSandboxed).Suffixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(SuffixProfilePb)));
             ctx.GetPattern(_programableRecompile).Suffixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(PrefixRecompilePb)));
 
+            if (EnablePreJit)
+            {
+                ctx.GetPattern(_programmableCreateInstance).Prefixes.Add(ReflectionUtils.StaticMethod(typeof(PBProfilerPatch), nameof(PrefixCreateInstancePb)));
+            }
+            
             Log.Info("Finished Patching!");
         }
 
@@ -111,6 +124,44 @@ namespace HaE_PBLimiter
         {
             if (PBData.pbPair.TryGetValue(__instance.EntityId, out var pbData))
                 pbData.SetRecompiled();
+        }
+
+        private static void PrefixCreateInstancePb(MyProgrammableBlock __instance, Assembly assembly)
+        {
+            if (!EnablePreJit || assembly == null)
+            {
+                return;
+            }
+            
+            var sw = Stopwatch.StartNew();
+            var methodsToPrepare = new List<MethodInfo>();
+            
+            foreach (var type in assembly.DefinedTypes)
+            {
+                var declaredMethods = type.GetMethods(
+                    BindingFlags.DeclaredOnly | 
+                    BindingFlags.Public | BindingFlags.NonPublic |
+                    BindingFlags.Static | BindingFlags.Instance
+                );
+
+                for (var index = 0; index < declaredMethods.Length; index++)
+                {
+                    var methodInfo = declaredMethods[index];
+                    
+                    if (!methodInfo.IsAbstract && !methodInfo.ContainsGenericParameters)
+                    {
+                        methodsToPrepare.Add(methodInfo);
+                    }
+                }
+            }
+
+            Parallel.ForEach(methodsToPrepare, methodInfo =>
+            {
+                RuntimeHelpers.PrepareMethod(methodInfo.MethodHandle);
+            });
+            
+            var time = sw.Elapsed.TotalMilliseconds;
+            Log.Info($"Prepared {methodsToPrepare.Count} methods in {time:F2}ms.");
         }
     }
 }
