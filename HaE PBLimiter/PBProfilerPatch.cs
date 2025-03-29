@@ -113,7 +113,7 @@ namespace HaE_PBLimiter
 
             if (maxGcCount == 1)
             {
-                Log.Warn($"Dropped \"{__instance.CustomName}\" for GC. Time would have been {dtInSeconds * 1e6:F}us");
+                //Log.Warn($"Dropped \"{__instance.CustomName}\" for GC. Time would have been {dtInSeconds * 1e6:F}us");
                 dtInSeconds = 0.0;
             }
             
