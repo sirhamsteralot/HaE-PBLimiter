@@ -131,10 +131,7 @@ namespace HaE_PBLimiter
 
                     if (ProfilerConfig.allowCleanup)
                     {
-                        PB.RunSandboxedProgramAction(delegate (IMyGridProgram program)
-                        {
-                            program.Save();
-                        }, out string response);
+                        PB.GetObjectBuilderCubeBlock();
                     }
 
                     needsInstansiationField.SetValue(PB, false);
