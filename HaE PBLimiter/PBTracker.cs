@@ -28,7 +28,17 @@ namespace HaE_PBLimiter
         
         private int startTick;
         private int violations;
-       
+        private int LastPerformanceUpdateFrame = MySession.Static.GameplayFrameCounter;
+
+        public PBTracker(PBTracker clone)
+        {
+            this.PB = clone.PB;
+            this.averageMs = clone.averageMs;
+            this.lastExecutionTime = clone.lastExecutionTime;
+            this.violations = clone.violations;
+            this.startTick = clone.startTick;
+            this.LastPerformanceUpdateFrame = clone.LastPerformanceUpdateFrame;
+        }
 
         public PBTracker(MyProgrammableBlock PB, double average)
         {
@@ -53,8 +63,6 @@ namespace HaE_PBLimiter
 
             averageMs += ProfilerConfig.tickSignificance * ms;
         }
-
-        int LastPerformanceUpdateFrame = MySession.Static.GameplayFrameCounter;
 
         public void UpdatePerformance() {
             int frame = MySession.Static.GameplayFrameCounter;
@@ -123,10 +131,7 @@ namespace HaE_PBLimiter
 
                     if (ProfilerConfig.allowCleanup)
                     {
-                        PB.RunSandboxedProgramAction(delegate (IMyGridProgram program)
-                        {
-                            program.Save();
-                        }, out string response);
+                        PB.GetObjectBuilderCubeBlock();
                     }
 
                     needsInstansiationField.SetValue(PB, false);

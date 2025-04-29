@@ -16,7 +16,7 @@ if (-not $gitTag) {
     exit 1
 }
 
-$gitTag = "v1.1.2.1"
+$gitTag = "v1.1.2.3"
 
 # Ask for Plugin Name and GUID
 $pluginName = "HaE PBLimiter"

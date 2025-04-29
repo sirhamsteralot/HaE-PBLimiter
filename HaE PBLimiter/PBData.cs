@@ -27,19 +27,15 @@ namespace HaE_PBLimiter
             {
                 if (control == null)
                 {
-                    lock (pbPair)
-                    {
-                        pbPair[entity.EntityId] = new PBTracker(entity, runtime);
-                    }
+
+                    pbPair[entity.EntityId] = new PBTracker(entity, runtime);
+
                     return;
                 }
 
                 control.Dispatcher.Invoke(() =>
                 {
-                    lock (pbPair)
-                    {
-                        pbPair[entity.EntityId] = new PBTracker(entity, runtime);
-                    }
+                    pbPair[entity.EntityId] = new PBTracker(entity, runtime);
                 });
             }
         }
@@ -73,48 +69,56 @@ namespace HaE_PBLimiter
             {
                 ResetPlayerMS();
 
+                List<PBTracker> pbTrackerClonedList = new List<PBTracker>();
+
                 lock (pbPair)
                 {
                     foreach (var tracker in pbPair.Values)
                     {
-                        if (tracker.PB == null)
-                            continue;
+                        pbTrackerClonedList.Add(new PBTracker(tracker));
+                    }
+                }
 
-                        if (!tracker.PB.IsWorking)
-                            continue;
 
-                        if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds > ProfilerConfig.timeOutTime)
-                            continue;
+                foreach (var tracker in pbTrackerClonedList)
+                {
+                    if (tracker.PB == null)
+                        continue;
+
+                    if (!tracker.PB.IsWorking)
+                        continue;
+
+                    if ((DateTime.Now - tracker.lastExecutionTime).TotalSeconds > ProfilerConfig.timeOutTime)
+                        continue;
 
                         
-                        MyPlayer.PlayerId id;
-                        Sync.Players.TryGetPlayerId(tracker.PB.OwnerId, out id);
-                        ulong pbOwner = id.SteamId;
+                    MyPlayer.PlayerId id;
+                    Sync.Players.TryGetPlayerId(tracker.PB.OwnerId, out id);
+                    ulong pbOwner = id.SteamId;
 
-                        double overriddenMax = ProfilerConfig.maxTickTime;
+                    double overriddenMax = ProfilerConfig.maxTickTime;
 
-                        if (PBPlayerTracker.playerOverrideDict.ContainsKey(pbOwner))
-                        {
-                            CheckPlayerMax(pbOwner, ref overriddenMax);
-                        }
-
-                        tracker.UpdatePerformance();
-
-                        if (ProfilerConfig.perPlayer)
-                        {
-                            if (!CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax))
-                            {
-                                PBPlayerTracker.players[tracker.PB.OwnerId].violations++;
-
-                                if (PBPlayerTracker.players[tracker.PB.OwnerId].violations > ProfilerConfig.maxViolations)
-                                    DisablePbsTill(tracker.PB.OwnerId, overriddenMax);
-                            }
-                            continue;
-                        }
-
-
-                        tracker.CheckMax(overriddenMax);
+                    if (PBPlayerTracker.playerOverrideDict.ContainsKey(pbOwner))
+                    {
+                        CheckPlayerMax(pbOwner, ref overriddenMax);
                     }
+
+                    tracker.UpdatePerformance();
+
+                    if (ProfilerConfig.perPlayer)
+                    {
+                        if (!CheckPerPlayer(tracker, tracker.PB.OwnerId, overriddenMax))
+                        {
+                            PBPlayerTracker.players[tracker.PB.OwnerId].violations++;
+
+                            if (PBPlayerTracker.players[tracker.PB.OwnerId].violations > ProfilerConfig.maxViolations)
+                                DisablePbsTill(tracker.PB.OwnerId, overriddenMax);
+                        }
+                        continue;
+                    }
+
+
+                    tracker.CheckMax(overriddenMax);
                 }
             } catch (Exception e)
             {
