@@ -80,12 +80,7 @@ namespace HaE_PBLimiter
         {
             if (averageMs > maximumAverageMS)
             {
-                violations++;
-
-                if (violations > ProfilerConfig.maxViolations)
-                {
-                    DamagePB();
-                }
+                DamagePB();
             }
         }
 
